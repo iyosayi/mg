@@ -1,0 +1,14 @@
+node_modules
+.env
+data
+big.file
+moment.js
+test.js
+/api/server/pay.html
+app.properties
+cron.js
+*.log
+.docker
+dist
+status.js
+users.md

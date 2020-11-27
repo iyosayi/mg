@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
+  "extends": ["airbnb-base", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "rules": {
+    "allowForLoopAfterthoughts": 0,
+    "no-underscore-dangle": "off",
+    "no-useless-constructor": "off",
+    "no-use-before-define": "off",
+    "no-console": "off",
+    "prefer-const": "off",
+    "consistent-return": "off",
+    "no-return-assign": "off",
+    "class-methods-use-this": "off"
+  }
+}

@@ -1,0 +1,73 @@
+version: '3.8'
+services:
+  moneyguard:
+    container_name: moneyguard
+    image: node:12-alpine
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+      - type: volume
+        source: nodemodules
+        target: /app/node_modules
+        volume:
+          nocopy: true
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - '4000:4000'
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+  mongo1:
+    hostname: mongo1
+    container_name: mongo1
+    image: mongo
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    volumes:
+      - 'mongodb_repl_data1:/data/db:z'
+    restart: always
+    command: '--bind_ip_all --replSet rs0 --port 27017'
+  mongo2:
+    hostname: mongo2
+    container_name: mongo2
+    image: mongo
+    expose:
+      - 27018
+    ports:
+      - 27018:27018
+    volumes:
+      - 'mongodb_repl_data2:/data/db:z'
+    restart: always
+    command: '--bind_ip_all --replSet rs0 --port 27018'
+  mongo3:
+    hostname: mongo3
+    container_name: mongo3
+    image: mongo
+    expose:
+      - 27019
+    ports:
+      - 27019:27019
+    restart: always
+    volumes:
+      - 'mongodb_repl_data3:/data/db:z'
+    command: '--bind_ip_all --replSet rs0 --port 27019'
+  rabbitmq:
+    hostname: rabbitmq
+    container_name: rabbitmq
+    image: rabbitmq:3.8.9-management-alpine
+    volumes:
+      - ./.docker/rabbitmq/etc/:/etc/rabbitmq/
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
+    ports:
+      - 5672:5672
+      - 15627:15627
+volumes:
+  nodemodules:
+  mongodb_repl_data1:
+  mongodb_repl_data2:
+  mongodb_repl_data3:

@@ -1,0 +1,12 @@
+.git
+.gitignore
+.dockerignore
+Dockerfile
+dist
+node_modules
+npm-debug.log
+README.md
+data
+.prettierignore
+dev-error.log
+status.js

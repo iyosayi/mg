@@ -2,6 +2,10 @@ import { InvalidPropertyError } from '../../helpers/errors'
 import makeWallet from '../factory'
 import requiredParam from '../../helpers/requireParam'
 
+/**
+ * This is responsible for handling the transfer of money from one wallet
+ * to another.
+ */
 export default function makeWalletTransfer({ walletDb, usersDb }) {
   return async function walletTransfer({
     id = requiredParam('User Id'),

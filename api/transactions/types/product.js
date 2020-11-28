@@ -1,10 +1,6 @@
 import OneOffTransaction from './one.off'
 
 export default class ProductTransaction extends OneOffTransaction {
-  constructor() {
-    super()
-  }
-
   addTransaction(transaction, userId, transactionSource) {
     return this.transactionDb.insert({
       firstName: transaction.getFirstName(),

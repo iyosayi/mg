@@ -1,5 +1,9 @@
 import { InvalidPropertyError } from '../../helpers/errors'
 
+/**
+ * Get all transctions of a user
+ */
+
 const makeListTransactions = ({ usersDb, transactionDb }) => {
   return async function listTransactions({ id } = {}) {
     const user = await usersDb.findById({ id })

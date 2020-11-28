@@ -1,25 +1,19 @@
-import { makeHttpError, onSuccess } from '../../helpers/http-response'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makePostPayment = ({ sendMoney }) => {
-  return async function postPayment(httpRequest) {
-    try {
-      const { user } = httpRequest
-      const { ref } = httpRequest.pathParams
-      const toAdd = await sendMoney({ ref, user })
-      return onSuccess({
-        type: 'payments',
-        attributes: toAdd,
-        statusCode: 200
-      })
-    } catch (error) {
-      return makeHttpError({
-        statusCode: 400,
-        errorMessage: error.message,
-        title: error.name,
-        stack: error.stack
-      })
-    }
-  }
+  return http.wrapAsync(async (httpRequest) => {
+    const { user } = httpRequest
+    const { ref } = httpRequest.pathParams
+    const toAdd = await sendMoney({ ref, user })
+    return http.apiResponse({
+      status: true,
+      statusCode: 200,
+      message: 'Transfer successful',
+      data: toAdd
+    })
+  })
 }
 
 export default makePostPayment

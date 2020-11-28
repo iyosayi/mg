@@ -2,6 +2,7 @@ import amqp from 'amqplib'
 import AMQP_URI from '../helpers/config'
 import { MessageBrokerError } from '../helpers/errors'
 
+console.log({ AMQP_URI })
 const exchange = 'escrow'
 const assertExchangeOptions = { durable: true }
 

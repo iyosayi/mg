@@ -1,3 +1,10 @@
+/**
+ * Sets the transaction status to
+ * 'Buyer confirmed order'
+ * This also triggers the release of money to the seller from the
+ * escrow account
+ */
+
 const makeConfirmTransaction = ({
   transactionDb,
   sendConfirmEmail,

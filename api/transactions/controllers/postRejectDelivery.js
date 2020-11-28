@@ -1,19 +1,19 @@
-import { apiResponse } from '../../helpers/http-response'
-import tryCatchHandler from '../../helpers/try-catch-handler'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makePostRejectDeliveredTransaction = ({ rejectDeliveredTransaction }) => {
-  const postRejectDelivery = tryCatchHandler(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     const { ref } = httpRequest.pathParams
 
     await rejectDeliveredTransaction({ ref })
-    return apiResponse({
+    return http.apiResponse({
       status: true,
       statusCode: 200,
       message: 'Transaction Delivery Rejected',
       data: null
     })
   })
-  return postRejectDelivery
 }
 
 export default makePostRejectDeliveredTransaction

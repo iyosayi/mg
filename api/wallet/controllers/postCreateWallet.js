@@ -1,18 +1,18 @@
-import tryCatchHandler from '../../helpers/try-catch-handler'
-import { apiResponse } from '../../helpers/http-response'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makePostCreateWallet = ({ createWallet }) => {
-  const postWallet = tryCatchHandler(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     const { user } = httpRequest
     const wallet = await createWallet({ user })
-    return apiResponse({
+    return http.apiResponse({
       status: true,
       statusCode: 201,
       message: 'Wallet created',
       data: [{ wallet }]
     })
   })
-  return postWallet
 }
 
 export default makePostCreateWallet

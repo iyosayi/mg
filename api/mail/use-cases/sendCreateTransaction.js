@@ -12,6 +12,7 @@ const buildMakeSendTransaction = ({
     try {
       const sender = await usersDb.findById({ id: userId })
       const receiver = await transactionDb.findById({ id: newTransaction._id })
+      console.log({ receiver })
       const { email } = receiver
       const exists = await usersDb.findByEmail({ email })
       const toSend = {

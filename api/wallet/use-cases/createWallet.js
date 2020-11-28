@@ -1,6 +1,10 @@
 import { InvalidPropertyError } from '../../helpers/errors'
 import requiredParam from '../../helpers/requireParam'
 
+/**
+ * This is responsible for creating the wallet details of a user
+ * during sign up.
+ */
 export default function createNewWallet({ walletDb, usersDb }) {
   return async function createWallet({ id = requiredParam('User Id') }) {
     const found = await usersDb.findById({ id })

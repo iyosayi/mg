@@ -1,5 +1,3 @@
-/* eslint-disable max-classes-per-file */
-
 import { EventEmitter } from 'events'
 import { CronJob } from 'cron'
 import escrowDb from '../core-payment/models'

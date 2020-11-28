@@ -1,12 +1,13 @@
-import { apiResponse } from '../../helpers/http-response'
-import wrapAsync from '../../helpers/try-catch-handler'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makeGetLink = ({ vendorLink }) => {
-  return wrapAsync(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     const { ...details } = httpRequest.body
 
     const link = await vendorLink({ ...details })
-    return apiResponse({
+    return http.apiResponse({
       status: 'OK',
       statusCode: 200,
       message: 'Vendor Link',

@@ -1,8 +1,6 @@
-/* eslint-disable prefer-const */
 /**
- * Customer Reject Transaction use-case
- * @function makeRejectDeliveredTransaction
- * POST request
+ * This is responsible for when a customer/buyer rejects the delivered
+ * order/product. This sets the transaction status to 'Transaction Delivery Rejected'
  */
 const makeRejectDeliveredTransaction = ({
   transactionDb,
@@ -10,10 +8,6 @@ const makeRejectDeliveredTransaction = ({
   sendDeliveryRejectionEmail
 }) => {
   return async function rejectDeliveredTransaction({ ref }) {
-    /**
-     * @param {string} currentTransaction
-     */
-
     const currentTransaction = await transactionDb.findByRef({ ref })
     let { transactionStatus, _id, initiator } = currentTransaction
     const user = await usersDb.findById({ id: initiator })

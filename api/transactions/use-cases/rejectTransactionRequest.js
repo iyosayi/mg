@@ -1,8 +1,7 @@
-/* eslint-disable prefer-const */
 /**
- * @function makeRejectTransactionRequest
- * POST - It rejects the current transaction request.
- * Transaction Status is set to `Transaction Request Rejected`
+ * This is responsible for when the transaction is rejected by the recipient
+ * due to transaction agreement not fully met. The transaction status is set
+ * to 'Tranasction Request Rejected'
  */
 
 const makeRejectTransactionRequest = ({

@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-export default process.env.CLOUDAMQP_URL || 'amqp://rabbitmq'
+export default process.env.CLOUDAMQP_URL || 'amqp://localhost'
 
 export function urlGenerator(type, token) {
   switch (type) {

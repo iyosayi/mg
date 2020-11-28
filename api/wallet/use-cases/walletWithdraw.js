@@ -1,6 +1,9 @@
 import { InvalidPropertyError } from '../../helpers/errors'
 import makeWallet from '../factory'
 
+/**
+ * This is responsible for withdrawing money from a user account.
+ */
 export default function makeWalletWithdrawal({ walletDb }) {
   return async function walletWithdrawal({ user, ...walletDetails }) {
     const withdrawal = makeWallet(walletDetails)

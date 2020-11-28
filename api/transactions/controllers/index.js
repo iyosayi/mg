@@ -6,7 +6,7 @@ import makePostDeliveryTransaction from './postDeliveryTransaction'
 import makePostConfirmTransaction from './postConfirmTransaction'
 import makePostInProgress from './postInProgress'
 import makePostRejectDeliveredTransaction from './postRejectDelivery'
-import makePostVerifyTransaction from './postVerifyFunds'
+import makePostDepositEscrow from './postDepositEscrow'
 import {
   listTransactions,
   createTransaction,
@@ -16,7 +16,7 @@ import {
   deliveryComplete,
   confirmTransaction,
   inProgress,
-  verifyTransaction
+  depositEscrow
 } from '../use-cases'
 
 const postTransaction = makePostTransaction({ createTransaction })
@@ -35,10 +35,10 @@ const postRejectDelivery = makePostRejectDeliveredTransaction({
 
 const postInProgress = makePostInProgress({ inProgress })
 
-const verifyPaystack = makePostVerifyTransaction({ verifyTransaction })
+const postDepositEscrow = makePostDepositEscrow({ depositEscrow })
 export {
   postTransaction,
-  verifyPaystack,
+  postDepositEscrow,
   getTransactions,
   postAcceptTransaction,
   rejectTransactions,

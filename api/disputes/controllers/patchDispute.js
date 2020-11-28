@@ -1,26 +1,19 @@
-import { apiResponse, makeHttpError } from '../../helpers/http-response'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makePatchDispute = ({ editDispute }) => {
-  return async function patchDispute(httpRequest) {
-    try {
-      const { ...changes } = httpRequest.body
-      const { id } = httpRequest.pathParams
-      await editDispute({ id, ...changes })
-      return apiResponse({
-        status: true,
-        message: 'Dispute Updated',
-        data: null,
-        statusCode: 200
-      })
-    } catch (error) {
-      return makeHttpError({
-        statusCode: 400,
-        title: error.name,
-        errorMessage: error.message,
-        stack: error.stack
-      })
-    }
-  }
+  return http.wrapAsync(async (httpRequest) => {
+    const { ...changes } = httpRequest.body
+    const { id } = httpRequest.pathParams
+    await editDispute({ id, ...changes })
+    return http.apiResponse({
+      status: true,
+      message: 'Dispute Updated',
+      data: null,
+      statusCode: 200
+    })
+  })
 }
 
 export default makePatchDispute

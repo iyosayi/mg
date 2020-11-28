@@ -1,24 +1,18 @@
-const { onSuccess, makeHttpError } = require('../../helpers/http-response')
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makePostReleaseFunds = ({ releaseFunds }) => {
-  return async function postReleaseFunds(httpRequest) {
-    try {
-      const { referenceId } = httpRequest.pathParams
-      const response = await releaseFunds({ referenceId })
-      return onSuccess({
-        type: 'Money tranfer',
-        statusCode: 200,
-        self: '/',
-        attributes: response
-      })
-    } catch (error) {
-      return makeHttpError({
-        statusCode: error.statusCode || 400,
-        title: error.name,
-        stack: error.stack
-      })
-    }
-  }
+  return http.wrapAsync(async (httpRequest) => {
+    const { referenceId } = httpRequest.pathParams
+    const response = await releaseFunds({ referenceId })
+    return http.apiResponse({
+      status: true,
+      statusCode: 200,
+      message: 'Transfer successful',
+      data: response
+    })
+  })
 }
 
 export default makePostReleaseFunds

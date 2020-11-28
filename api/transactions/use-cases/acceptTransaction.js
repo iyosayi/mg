@@ -1,4 +1,8 @@
-/* eslint-disable prefer-const */
+/**
+ * This sets the transaction status to 'Transaction Accepted - Not funded'
+ * This is also when the seller/recipient accepts the transaction
+ * which was initiated by the customer/buyer
+ */
 
 const makeAcceptTransaction = ({ transactionDb, sendAcceptanceEmail }) => {
   return async function acceptTransaction({ ref } = {}) {

@@ -1,20 +1,20 @@
-import { apiResponse } from '../../helpers/http-response'
-import tryCatchHandler from '../../helpers/try-catch-handler'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makePostWithdraw = ({ walletWithdraw }) => {
-  const postWithdraw = tryCatchHandler(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     const { ...walletDetails } = httpRequest.body
     const { user } = httpRequest
 
     await walletWithdraw({ user, ...walletDetails })
-    return apiResponse({
+    return http.apiResponse({
       status: 'OK',
       statusCode: 200,
       message: 'Withdrawal Successful',
       data: null
     })
   })
-  return postWithdraw
 }
 
 export default makePostWithdraw

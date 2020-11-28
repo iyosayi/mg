@@ -1,26 +1,18 @@
-import { makeHttpError } from '../../helpers/http-response'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makeDeleteUser = ({ removeUser }) => {
-  return async function deleteUser(httpRequest) {
-    try {
-      const { id } = httpRequest.pathParams
-      const deleted = await removeUser({ id })
-      return {
-        headers: {
-          'Content-Type': 'application/vnd.api+json'
-        },
-        statusCode: 200,
-        data: JSON.stringify(deleted)
-      }
-    } catch (error) {
-      return makeHttpError({
-        statusCode: 400,
-        title: error.name,
-        errorMessage: error.message,
-        stack: error.stack
-      })
-    }
-  }
+  return http.wrapAsync(async (httpRequest) => {
+    const { id } = httpRequest.pathParams
+    const deleted = await removeUser({ id })
+    return http.apiResponse({
+      status: true,
+      statusCode: 200,
+      message: 'User deleted',
+      data: deleted
+    })
+  })
 }
 
 export default makeDeleteUser

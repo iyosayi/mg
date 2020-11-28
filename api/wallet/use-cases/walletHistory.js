@@ -1,5 +1,9 @@
-const { InvalidPropertyError } = require('../../helpers/errors')
+import { InvalidPropertyError } from '../../helpers/errors'
 
+/**
+ * This is responsible for getting wallet history transactions
+ * of a certain user.
+ */
 const makeWalletHistory = ({ walletDb, usersDb }) => {
   return async function walletHistory({ id }) {
     const user = await usersDb.findById({ id })

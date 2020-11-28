@@ -1,9 +1,8 @@
-/* eslint-disable prefer-const */
-import { apiResponse } from '../../helpers/http-response'
-import tryCatchHandler from '../../helpers/try-catch-handler'
+import { HttpUtils } from 'mguard-utils'
 
+const http = new HttpUtils()
 const makePostUser = ({ addUser }) => {
-  return tryCatchHandler(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     let { source = {}, ...userInfo } = httpRequest.body
     source.ip = httpRequest.ip
     source.browser = httpRequest.headers['User-Agent']
@@ -13,7 +12,7 @@ const makePostUser = ({ addUser }) => {
 
     const user = await addUser({ source, ...userInfo })
 
-    return apiResponse({
+    return http.apiResponse({
       status: true,
       statusCode: 201,
       data: [user],

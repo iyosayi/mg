@@ -1,8 +1,9 @@
-import { apiResponse } from '../../helpers/http-response'
-import tryCatchHandler from '../../helpers/try-catch-handler'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makePostTransaction = ({ createTransaction }) => {
-  const postTransaction = tryCatchHandler(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     const { source = {}, ...transactionInfo } = httpRequest.body
     const userId = httpRequest.user.id
     source.ip = httpRequest.ip
@@ -15,14 +16,13 @@ const makePostTransaction = ({ createTransaction }) => {
       source,
       ...transactionInfo
     })
-    return apiResponse({
+    return http.apiResponse({
       status: 'OK',
       message: 'Transaction Created',
       data: [transaction],
       statusCode: 201
     })
   })
-  return postTransaction
 }
 
 export default makePostTransaction

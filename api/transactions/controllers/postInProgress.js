@@ -1,20 +1,20 @@
-import { apiResponse } from '../../helpers/http-response'
-import tryCatchHandler from '../../helpers/try-catch-handler'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makePostInProgress = ({ inProgress }) => {
-  const postInProgress = tryCatchHandler(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     const { user } = httpRequest
     const { ref } = httpRequest.pathParams
 
     await inProgress({ user, ref })
-    return apiResponse({
+    return http.apiResponse({
       status: true,
       message: 'Transaction in Progress',
       statusCode: 200,
       data: null
     })
   })
-  return postInProgress
 }
 
 export default makePostInProgress

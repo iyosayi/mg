@@ -6,7 +6,7 @@ import makeDeliveryComplete from './deliveryComplete'
 import makeConfirmTransaction from './confirmTransaction'
 import makeInProgress from './inProgress'
 import makeRejectTransactionRequest from './rejectTransactionRequest'
-import makeVerifyTransaction from './fundTransaction'
+import makeDespositEscrow from './fundTransaction'
 import publisher from '../../pubsub/publisher'
 import {
   sendAcceptanceEmail,
@@ -44,7 +44,7 @@ const rejectDeliveredTransaction = makeRejectDeliveredTransaction({
   sendDeliveryRejectionEmail
 })
 
-// Rejects initial transaction request
+// Recipient rejects transaction request
 const rejectTransactionRequest = makeRejectTransactionRequest({
   transactionDb,
   usersDb,
@@ -72,8 +72,8 @@ const inProgress = makeInProgress({
   usersDb
 })
 
-// verify transaction
-const verifyTransaction = makeVerifyTransaction({ transactionDb, escrowDb })
+// deposits money into escrow account
+const depositEscrow = makeDespositEscrow({ transactionDb, escrowDb })
 
 export {
   listTransactions,
@@ -84,5 +84,5 @@ export {
   deliveryComplete,
   confirmTransaction,
   inProgress,
-  verifyTransaction
+  depositEscrow
 }

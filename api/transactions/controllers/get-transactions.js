@@ -1,11 +1,12 @@
-import { apiResponse } from '../../helpers/http-response'
-import tryCatchHandler from '../../helpers/try-catch-handler'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makeGetTransactions = ({ listTransactions }) => {
-  return tryCatchHandler(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     const { id } = httpRequest.user
     const transactions = await listTransactions({ id })
-    return apiResponse({
+    return http.apiResponse({
       status: true,
       message: 'Transactions',
       data: [transactions],

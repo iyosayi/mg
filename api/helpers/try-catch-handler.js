@@ -7,12 +7,10 @@ import {
   UnauthorizedError,
   DatabaseError
 } from './errors'
-// import logging from '../configuration/logging/logger'
 
 const tryCatchHandler = (fn) => (req, res, ...otherParams) =>
   fn(req, res, ...otherParams).catch((error) => {
-    console.log(`ERROR`, error)
-    // logging.error(`An error occured: Error ${error}`)
+    console.log('ERROR', error)
     return makeHttpError({
       errorMessage: error.message,
       title: error.name,

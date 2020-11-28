@@ -1,6 +1,9 @@
 import makeWallet from '../factory'
 import requiredParam from '../../helpers/requireParam'
 
+/**
+ * This is responsible for handling the deposit of money into an individual's wallet
+ */
 export default function makeWalletDeposit({ walletDb }) {
   return async function walletDeposit({
     userId = requiredParam('User Id'),

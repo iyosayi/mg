@@ -1,7 +1,11 @@
 import { sendNotificationEmail } from '../../mail'
 import { makeEscrow } from '../../core-payment/factory'
 
-const makeVerifyTransaction = ({ transactionDb, escrowDb }) => {
+/**
+ * Saves the payment information for a certain transaction to the
+ * escrow database.
+ */
+const makeDepositEscrow = ({ transactionDb, escrowDb }) => {
   return async ({ user, ...details }) => {
     const { totalAmount } = details
     const { reference } = details.details
@@ -39,4 +43,4 @@ const makeVerifyTransaction = ({ transactionDb, escrowDb }) => {
   }
 }
 
-export default makeVerifyTransaction
+export default makeDepositEscrow

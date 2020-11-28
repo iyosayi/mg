@@ -1,11 +1,12 @@
-import tryCatchHandler from '../../helpers/try-catch-handler'
-import { apiResponse } from '../../helpers/http-response'
+import { HttpUtils } from 'mguard-utils'
+
+const http = new HttpUtils()
 
 const makeGetWalletHistory = ({ walletHistory }) => {
-  return tryCatchHandler(async (httpRequest) => {
+  return http.wrapAsync(async (httpRequest) => {
     const { id } = httpRequest.user
     const wallet = await walletHistory({ id })
-    return apiResponse({
+    return http.apiResponse({
       status: true,
       statusCode: 201,
       message: 'Wallet created',

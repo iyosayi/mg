@@ -21,3 +21,9 @@ export function urlGenerator(type, token) {
       return `https://money-guard.herokuapp.com/`
   }
 }
+
+export function authKeys(){
+  return {
+    CLOUDINARY_URL: 'cloudinary://175869452826359:r06cEF-uTm8mEQ-y4XGWZljinDk@moneygaurd'
+  }
+}

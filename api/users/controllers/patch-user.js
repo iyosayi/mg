@@ -1,13 +1,12 @@
-import { HttpUtils } from 'mguard-utils'
-
-const http = new HttpUtils()
+import wrapAsync from '../../helpers/try-catch-handler'
+import apiResponse from '../../helpers/http-response'
 
 const makePatchUser = ({ editUser }) => {
-  return http.wrapAsync(async (httpRequest) => {
+  return wrapAsync(async (httpRequest) => {
     let { ...userInfo } = httpRequest.body
     const toEdit = { ...userInfo, id: httpRequest.pathParams.id }
     const user = await editUser(toEdit)
-    return http.apiResponse({
+    return apiResponse({
       status: true,
       statusCode: 200,
       message: 'User updated successfully',

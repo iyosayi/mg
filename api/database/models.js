@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import userSchema from '../users/model/userModel'
+import profilePicSchema from '../uploads/model/profilePicModel'
 import transactionSchema from '../transactions/models/transactionModel'
 import escrowSchema from '../core-payment/models/escrowModel'
 import disputeSchema from '../disputes/models/disputeModel'
@@ -9,6 +10,7 @@ import vendorSchema from '../personal-link/models/vendorModel'
 
 const models = {
   User: mongoose.model('User', userSchema),
+  ProfilePic: mongoose.model('ProfilePic', profilePicSchema),
   Transaction: mongoose.model('Transaction', transactionSchema),
   Escrow: mongoose.model('Escrow', escrowSchema),
   Dispute: mongoose.model('Dispute', disputeSchema),

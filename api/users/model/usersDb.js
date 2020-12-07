@@ -44,12 +44,20 @@ const makeUsersDb = ({ User, createToken, hashPassword }) => {
     return User.find().select('-password')
   }
 
+  async function isValid(id){
+    if(findById({id})){
+      return true
+    }
+    return false
+  }
+
   return Object.freeze({
     insert,
     update,
     findByEmail,
     findById,
-    findAll
+    findAll,
+    isValid
   })
 }
 

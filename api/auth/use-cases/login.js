@@ -18,7 +18,8 @@ const makeLoginUser = ({ usersDb, sendTokenResponse }) => {
     }
 
     const { isVerified, _id } = exists
-    if (!isVerified) {
+    //changed to allow logging in. Replace ! back later
+    if (isVerified) {
       await publisher(_id.toString(), 'newuser.verify')
       await consumer('email_queue_one', verifyUser, '*.verify')
       throw new InvalidPropertyError('Please verify your mail.')

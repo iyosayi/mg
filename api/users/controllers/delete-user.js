@@ -1,12 +1,11 @@
-import { HttpUtils } from 'mguard-utils'
-
-const http = new HttpUtils()
+import wrapAsync from '../../helpers/try-catch-handler'
+import apiResponse from '../../helpers/http-response'
 
 const makeDeleteUser = ({ removeUser }) => {
-  return http.wrapAsync(async (httpRequest) => {
+  return wrapAsync(async (httpRequest) => {
     const { id } = httpRequest.pathParams
     const deleted = await removeUser({ id })
-    return http.apiResponse({
+    return apiResponse({
       status: true,
       statusCode: 200,
       message: 'User deleted',

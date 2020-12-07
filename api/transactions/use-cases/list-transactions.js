@@ -11,7 +11,7 @@ const makeListTransactions = ({ usersDb, transactionDb }) => {
       throw new InvalidPropertyError('User does not exist.')
     }
     const { email } = user
-    const found = await transactionDb.findMyTransactions(email)
+    const found = await transactionDb.findMyTransactions(email);
     return found.transactions
   }
 }

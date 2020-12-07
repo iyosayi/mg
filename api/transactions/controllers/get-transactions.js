@@ -13,6 +13,7 @@ const makeGetTransactions = ({ listTransactions}) => {
 
     // return cached data if it exists and set cached data if cached data doesnt exist 
     // const transactions = cachedTransactions ? cachedTransactions : (await listTransactions({ id }), await setCache({ id, transactions }));
+    
     let transactions;
     if (cachedTransactions) {
       transactions = cachedTransactions

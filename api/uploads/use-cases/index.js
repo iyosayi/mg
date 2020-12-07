@@ -1,13 +1,13 @@
-import makeProfilePic from './profile-pic-user'
+import makeUploadProfilePic from './profile-pic-user'
 import handleUrl from '../../configuration/cloudinary/cloudinary'
 import imageDB from '../model'
 
-const uploadProfilePicUser = makeProfilePic({ imageDB, handleUrl })
-console.log(typeof uploadProfilePicUser)
+const addProfilePic = makeUploadProfilePic({ imageDB, handleUrl })
+console.log(typeof addProfilePic)
 
-const profileService = Object.freeze({
-    uploadProfilePicUser
-})
+// const profileService = Object.freeze({
+//     addProfilePic
+// })
 
-export default profileService
-export { uploadProfilePicUser }
+// export default profileService
+export { addProfilePic }

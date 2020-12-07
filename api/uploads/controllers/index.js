@@ -1,12 +1,12 @@
-import makeProfilePic from './profile-pic-user'
-import { uploadProfilePicUser } from '../use-cases'
+import uploadProfilePic from './profile-pic-user'
+import { addProfilePic } from '../use-cases'
 
-const uploadProfilePic = makeProfilePic({ uploadProfilePicUser })
-console.log(typeof uploadProfilePicUser)
+const profileUpload = uploadProfilePic({addProfilePic})
+console.log(typeof profileUpload)
 
-const picController = Object.freeze({
-    uploadProfilePic
-})
+// const picController = Object.freeze({
+//     uploadProfilePic
+// })
 
-export default picController
-export { uploadProfilePic }
+// export default picController
+export { profileUpload }

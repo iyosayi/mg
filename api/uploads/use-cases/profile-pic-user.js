@@ -1,4 +1,4 @@
-import profilePicFactory from '../factories'
+import profilePicFactory from '../factory'
 import requiredParam from '../../helpers/requireParam'
 import { InvalidPropertyError } from '../../helpers/errors'
 
@@ -42,5 +42,7 @@ const makeUploadProfilePic = ({imageDB, handleUrl}) => {
     return imageUploaded
   }
 }
+
+//const makeUpload = makeUploadProfilePic()
 
 export default makeUploadProfilePic

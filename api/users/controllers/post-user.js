@@ -1,8 +1,9 @@
-import { HttpUtils } from 'mguard-utils'
 
-const http = new HttpUtils()
+import wrapAsync  from '../../helpers/try-catch-handler'
+import apiResponse  from '../../helpers/http-response'
+
 const makePostUser = ({ addUser }) => {
-  return http.wrapAsync(async (httpRequest) => {
+  return wrapAsync(async (httpRequest) => {
     let { source = {}, ...userInfo } = httpRequest.body
     source.ip = httpRequest.ip
     source.browser = httpRequest.headers['User-Agent']
@@ -12,7 +13,7 @@ const makePostUser = ({ addUser }) => {
 
     const user = await addUser({ source, ...userInfo })
 
-    return http.apiResponse({
+    return apiResponse({
       status: true,
       statusCode: 201,
       data: [user],

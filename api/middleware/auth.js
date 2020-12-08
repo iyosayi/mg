@@ -23,3 +23,4 @@ const decodeToken = (controller) => {
 }
 
 export default decodeToken
+

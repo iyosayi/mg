@@ -1,10 +1,11 @@
-import { set } from "../factory/cache"
+import { set, setAsync } from "../factory/cache"
 
 
-const setCachedTransactions = async ({ id, transactions } = {}) => {
-    const cacheTransactions = await set(id, 1800,transactions,)
+const setCachedTransactions = async ({ email, transactions } = {}) => {
+    const cacheTransactions = await set(email, 1800, JSON.stringify(transactions))
     console.log("success")
     return;
 }
 
 export default setCachedTransactions
+

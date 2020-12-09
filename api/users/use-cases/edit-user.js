@@ -1,3 +1,7 @@
+import { UserFactory } from '../factory/UserFactory'
+import { IUser, UserResult, UserDatabase } from '../UInterface/IUser'
+
+
 import userFactory from '../factory'
 import requiredParam from '../../helpers/requireParam'
 import { InvalidPropertyError } from '../../helpers/errors'

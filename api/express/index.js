@@ -4,7 +4,7 @@ const makeExpressCallback = (controller) => {
   return (req, res) => {
     const httpRequest = {
       body: req.body,
-      pathParams: req.params,
+      pathParams: req.params, 
       query: req.query,
       ip: req.ip,
       method: req.method,

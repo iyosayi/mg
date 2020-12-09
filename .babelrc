@@ -1,12 +1,16 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "node": true
-        }
-      }
-    ]
+  "presets": [ [
+    "@babel/preset-env",
+    {
+      "useBuiltIns": "usage",
+      "corejs": 3,
+      "targets": "> 0.25%, not dead"
+    }
+  ],
+    "@babel/typescript"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread"
   ]
 }

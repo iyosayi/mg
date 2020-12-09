@@ -7,7 +7,7 @@ import { readdirSync } from 'fs'
 
 module.exports = (app) => {
   readdirSync(__dirname).forEach((file) => {
-    if (file === 'index.js') return
+    if (file === 'index.js' || file === 'index.ts') return
     const router = express.Router()
     const routeModule = require(require('path').join(__dirname, file))
     const path =

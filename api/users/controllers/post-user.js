@@ -1,4 +1,4 @@
-import { HttpUtils } from 'mguard-utils'
+import { apiResponse} from 'mguard-utils'
 
 const http = new HttpUtils()
 const makePostUser = ({ addUser }) => {

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import { DatabaseError } from '../../helpers/errors'
-import logging from '../../configuration/logging/logger'
 
 export default function makeWalletDb({ Wallet, usersDb, WalletTransaction }) {
   async function create({ ...walletDetails }) {
@@ -25,7 +24,6 @@ export default function makeWalletDb({ Wallet, usersDb, WalletTransaction }) {
       await wallet.save()
       return newTransaction
     } catch (error) {
-      logging.error(`An error occured: Error ${error}`)
       throw new DatabaseError(error)
     }
   }
@@ -51,7 +49,6 @@ export default function makeWalletDb({ Wallet, usersDb, WalletTransaction }) {
         await receiver.save({ session })
       })
     } catch (error) {
-      logging.error(`An error occured: Error ${error}`)
       throw new DatabaseError(error)
     } finally {
       session.endSession()

@@ -1,8 +1,8 @@
 const acceptanceEmailTemplate = (receiver, user, transaction, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.fullName
-  const name = user.fullName
+  const username = receiver.fullName ? receiver.fullName :  'there'
+  const name = user.fullName ? user.fullName : user.email
   const subject = 'Your money has been placed in Escrow'
   const html = `
   <p>Hi ${username}, ${name} has placed your money in escrow, you can go ahead and send ${name} the goods as bargained.</p>

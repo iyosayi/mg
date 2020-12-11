@@ -54,6 +54,7 @@ const sendAcceptanceEmail = makeAcceptanceEmail({
 // Notifies the seller that the money has been paid into escrow
 const sendNotificationEmail = makeSendNotificationEmail({
   transactionDb,
+  usersDb,
   sendMail,
   acceptanceEmailTemplate,
   dashboardURL

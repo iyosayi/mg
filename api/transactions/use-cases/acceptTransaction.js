@@ -17,3 +17,4 @@ const makeAcceptTransaction = ({ transactionDb, sendAcceptanceEmail }) => {
   }
 }
 export default makeAcceptTransaction
+ 

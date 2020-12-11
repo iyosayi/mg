@@ -2,6 +2,7 @@ import { SendGridError } from '../../helpers/errors'
 
 const makeSendNotificationEmail = ({
   transactionDb,
+  usersDb,
   sendMail,
   dashboardURL,
   acceptanceEmailTemplate
@@ -9,13 +10,9 @@ const makeSendNotificationEmail = ({
   return async function sendNotificationEmail({ ref, user }) {
     try {
       const receiver = await transactionDb.findByRef({ ref })
-      // const transactionRef = receiver.reference
-      const {
-        status,
-        title,
-        description,
-        amount
-      } = receiver
+      const sender = await usersDb.findById({ id: user.id })
+
+      const { status, title, description, amount } = receiver
       const transaction = {
         title,
         description,
@@ -25,7 +22,7 @@ const makeSendNotificationEmail = ({
       const url = dashboardURL()
       const emailTemplate = acceptanceEmailTemplate(
         receiver,
-        user,
+        sender,
         transaction,
         url
       )

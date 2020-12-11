@@ -7,8 +7,7 @@ import { makeEscrow } from '../../core-payment/factory'
  */
 const makeDepositEscrow = ({ transactionDb, escrowDb }) => {
   return async ({ user, ...details }) => {
-    const { totalAmount } = details
-    const { reference } = details.details
+    const { totalAmount, reference } = details
     try {
       const ref = reference
       const buyerId = user.id
@@ -16,7 +15,7 @@ const makeDepositEscrow = ({ transactionDb, escrowDb }) => {
       const depositedFund = makeEscrow({
         totalAmount,
         reference,
-        buyerId
+        buyerId 
       })
       const payment = {
         totalAmount: depositedFund.getAmount(),
@@ -31,7 +30,7 @@ const makeDepositEscrow = ({ transactionDb, escrowDb }) => {
         escrowDb.deposit(payment),
         transactionDb.update({
           id: found._id,
-          transactionStatus: 'Accepted and Funded',
+          status: 'Accepted and Funded',
           tag: 'bft'
         }),
         sendNotificationEmail({ ref, user })

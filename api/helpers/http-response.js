@@ -19,7 +19,7 @@ export function makeHttpError({ statusCode, id, title, errorMessage, stack }) {
   }
 }
 
-export const apiResponse = ({ status, statusCode, message, data }) => {
+const apiResponse = ({ status, statusCode, message, data }) => {
   const toReturn = {
     status,
     message,
@@ -34,3 +34,5 @@ export const apiResponse = ({ status, statusCode, message, data }) => {
     data: JSON.stringify(toReturn)
   }
 }
+
+export default apiResponse

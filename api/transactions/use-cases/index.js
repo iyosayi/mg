@@ -6,7 +6,7 @@ import makeDeliveryComplete from './deliveryComplete'
 import makeConfirmTransaction from './confirmTransaction'
 import makeInProgress from './inProgress'
 import makeRejectTransactionRequest from './rejectTransactionRequest'
-import makeDespositEscrow from './fundTransaction'
+import makeDepositEscrow from './fundTransaction'
 import publisher from '../../pubsub/publisher'
 import {
   sendAcceptanceEmail,
@@ -73,7 +73,7 @@ const inProgress = makeInProgress({
 })
 
 // deposits money into escrow account
-const depositEscrow = makeDespositEscrow({ transactionDb, escrowDb })
+const depositEscrow = makeDepositEscrow({ transactionDb, escrowDb })
 
 export {
   listTransactions,

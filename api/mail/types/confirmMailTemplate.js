@@ -17,10 +17,10 @@ const confirmEmailTemplate = (receiver, sender, transaction, url) => {
         <th>Status</th>
       </tr> 
       <tr>
-        <td>${transaction.transactionTitle}</td>
-        <td>${transaction.transactionDesc}</td>
+        <td>${transaction.title}</td>
+        <td>${transaction.description}</td>
         <td>${transaction.amount / 100}</td>
-        <td>${transaction.transactionStatus}</td>
+        <td>${transaction.status}</td>
       <tr>
     </table>
 

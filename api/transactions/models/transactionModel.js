@@ -30,14 +30,6 @@ const statusEnum = [
 
 const typeEnum = ['one-off', 'product', 'milestone']
 const transactionSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true
-  },
-  lastName: {
-    type: String,
-    required: true
-  },
   email: {
     type: String,
     required: true
@@ -57,16 +49,11 @@ const transactionSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: typeEnum,
-    required: true,
     default: 'one-off'
-  },
-  currency: {
-    type: String,
-    enum: ['NGN', 'GHS']
   },
   inspectionPeriod: {
     type: Date,
-    required: true
+    // required: true
   },
   dueDate: {
     type: Date,
@@ -110,9 +97,11 @@ const transactionSchema = new mongoose.Schema({
   },
   quantity: Number,
   chargeBearer: {
-    type: mongoose.Types.ObjectId,
+    type: String,
     ref: 'User',
-    required: true
+    required: true,
+    enum: ["initiator", 'recipient'],
+    default: 'initiator'
   },
   shippingFee: Number,
   partyId: String

@@ -12,11 +12,11 @@ const makeConfirmTransaction = ({
 }) => {
   return async function confirmTransation({ ref } = {}) {
     const currentTransaction = await transactionDb.findByRef({ ref })
-    let { transactionStatus } = currentTransaction
+    let { status } = currentTransaction
     const { _id, initiator } = currentTransaction
-    transactionStatus = 'Buyer confirmed Order'
+    status = 'Buyer confirmed Order'
     const [updated] = await Promise.all([
-      transactionDb.update({ id: _id, transactionStatus }),
+      transactionDb.update({ id: _id, status }),
       sendConfirmEmail({ ref, initiator })
     ])
     const fund = new DisbursementAPI()

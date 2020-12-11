@@ -1,14 +1,13 @@
-import { HttpUtils } from 'mguard-utils'
-
-const http = new HttpUtils()
+import apiResponse from '../../helpers/http-response'
+import wrapAsync from '../../helpers/try-catch-handler'
 
 const makePostConfirmTransaction = ({ confirmTransaction }) => {
-  return http.wrapAsync(async (httpRequest) => {
+  return wrapAsync(async (httpRequest) => {
     const { user } = httpRequest
     const { ref } = httpRequest.pathParams
 
     await confirmTransaction({ user, ref })
-    return http.apiResponse({
+    return apiResponse({
       status: true,
       message: 'Transaction Delivery Confirmed',
       data: null,

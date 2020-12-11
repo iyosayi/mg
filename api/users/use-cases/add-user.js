@@ -5,7 +5,7 @@ import consumer from '../../pubsub/subscriber'
 import { verifyUser } from '../../mail'
 import { createWallet } from '../../wallet/use-cases'
 
-const makeAddUser = ({ usersDb, transactionsDb }) => {
+const makeAddUser = ({ usersDb }) => {
   return async function addUser(userInfo) {
     const user = userFactory.makeUser(userInfo)
     const exists = await usersDb.findByEmail({ email: user.getEmail() })
@@ -15,13 +15,9 @@ const makeAddUser = ({ usersDb, transactionsDb }) => {
 
     const userSource = user.getSource()
     const newUser = await usersDb.insert({
-      firstName: user.getFirstName(),
-      lastName: user.getLastName(),
       email: user.getEmail(),
       phoneNumber: user.getPhoneNumber(),
       password: user.getPassword(),
-      dob: user.getDOB(),
-      username: user.getUsername(),
       createdOn: user.getCreatedOn(),
       modifiedOn: user.getModifiedOn(),
       source: {
@@ -31,7 +27,6 @@ const makeAddUser = ({ usersDb, transactionsDb }) => {
       }
     })
     const id = newUser.user._id
-    await transactionsDb.findMyTransactions(user.getEmail())
     await createWallet({ id })
     await publisher(id.toString(), 'newuser.verify')
     await consumer('verify_queue', verifyUser, '*.verify')

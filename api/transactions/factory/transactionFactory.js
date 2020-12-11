@@ -11,19 +11,14 @@ const buildMakeTransactionFactory = ({
   shortid
 }) => {
   return function makeTransaction({
-    firstName = requiredParam('First name'),
-    lastName = requiredParam('Last name'),
     phoneNumber = requiredParam('Phone number'),
     email = requiredParam('Email'),
     title = requiredParam('Transaction Title'),
     description = requiredParam('Transaction Description'),
-    currency = requiredParam('Currency'),
-    inspectionPeriod = requiredParam('Inspection Period'),
     dueDate = requiredParam('Due date'),
     source = requiredParam('Source'),
     amount = requiredParam('Amount'),
     type = requiredParam('Type'),
-    location = requiredParam('Location'),
     shippingFee,
     chargeBearer = requiredParam('Charge bearer'),
     productTitle,
@@ -40,7 +35,7 @@ const buildMakeTransactionFactory = ({
       )
     }
 
-    if (!isValidAmount(shippingFee)) {
+    if (shippingFee && !isValidAmount(shippingFee)) {
       throw new InvalidPropertyError(
         'Shipping fee must be a valid number and must be greater than zero.'
       )
@@ -48,6 +43,7 @@ const buildMakeTransactionFactory = ({
 
     let reference
     let partyId
+    let inspectionPeriod = Date.now()
     const validSource = makeSource(source)
     const validInspectionPeriod = moment()
       .add(inspectionPeriod, 'days')
@@ -63,13 +59,10 @@ const buildMakeTransactionFactory = ({
     }
 
     return Object.freeze({
-      getFirstName: () => upperFirst(firstName),
-      getLastName: () => upperFirst(lastName),
       getPhoneNumber: () => phoneNumber,
       getEmail: () => email.toLowerCase(),
       getTitle: () => upperFirst(title),
       getDesc: () => description,
-      getCurrency: () => currency,
       getInspectionPeriod: () => validInspectionPeriod,
       getDueDate: () => validDueDate,
       getSource: () => validSource,
@@ -83,7 +76,6 @@ const buildMakeTransactionFactory = ({
       getCreatedOn: () => createdOn,
       getModifiedOn: () => modifiedOn,
       getPartyId: () => partyId || (partyId = makePartyId()),
-      getLocation: () => location
     })
   }
 }

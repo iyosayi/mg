@@ -6,7 +6,7 @@ export default function buildMakeEscrowDetails({ uuidv4 }) {
     }
 
     if (!reference) {
-      throw new Error('You must include a reference id.')
+      throw new Error('You must include a reference id .')
     }
 
     if (!buyerId) {

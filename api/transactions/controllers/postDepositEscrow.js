@@ -1,14 +1,13 @@
-import { HttpUtils } from 'mguard-utils'
-
-const http = new HttpUtils()
+import apiResponse from '../../helpers/http-response'
+import wrapAsync from '../../helpers/try-catch-handler'
 
 const makePostDepositEscrow = ({ depositEscrow }) => {
-  return http.wrapAsync(async (httpRequest) => {
+  return wrapAsync(async (httpRequest) => {
     const { user } = httpRequest
     const { ...details } = httpRequest.body
 
     await depositEscrow({ user, ...details })
-    return http.apiResponse({
+    return apiResponse({
       status: true,
       message: 'Payment Successful',
       data: null,
@@ -16,5 +15,5 @@ const makePostDepositEscrow = ({ depositEscrow }) => {
     })
   })
 }
-
+ 
 export default makePostDepositEscrow

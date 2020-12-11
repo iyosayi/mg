@@ -6,12 +6,12 @@
 const makeDeliveryComplete = ({ transactionDb, sendDeliveryEmail }) => {
   return async function deliveryComplete({ ref }) {
     const currentTransaction = await transactionDb.findByRef({ ref })
-    let { transactionStatus, _id, initiator } = currentTransaction
-    transactionStatus = 'Delivered'
+    let { status, _id, initiator } = currentTransaction
+    status = 'Delivered'
     const [updated] = await Promise.all([
       transactionDb.update({
         id: _id,
-        transactionStatus,
+        status,
         tag: 'bco'
       }),
       sendDeliveryEmail({ ref, initiator })

@@ -1,14 +1,13 @@
-import { HttpUtils } from 'mguard-utils'
-
-const http = new HttpUtils()
+import apiResponse from '../../helpers/http-response'
+import wrapAsync from '../../helpers/try-catch-handler'
 
 const makePostDeposit = ({ walletDeposit }) => {
-  return http.wrapAsync(async (httpRequest) => {
+  return wrapAsync(async (httpRequest) => {
     const { ...walletDetails } = httpRequest.body
     const { user } = httpRequest
     const userId = user.id
     const deposit = await walletDeposit({ ...walletDetails, userId })
-    return http.apiResponse({
+    return apiResponse({
       status: 'OK',
       statusCode: 200,
       message: 'Deposit successful',

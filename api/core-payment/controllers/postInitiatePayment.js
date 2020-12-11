@@ -1,13 +1,12 @@
-import { HttpUtils } from 'mguard-utils'
-
-const http = new HttpUtils()
+import apiResponse from '../../helpers/http-response'
+import wrapAsync from '../../helpers/try-catch-handler'
 
 const makePostPayment = ({ sendMoney }) => {
-  return http.wrapAsync(async (httpRequest) => {
+  return wrapAsync(async (httpRequest) => {
     const { user } = httpRequest
     const { ref } = httpRequest.pathParams
     const toAdd = await sendMoney({ ref, user })
-    return http.apiResponse({
+    return apiResponse({
       status: true,
       statusCode: 200,
       message: 'Transfer successful',

@@ -51,8 +51,10 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
     return Transaction.findOne({ email })
   }
 
-  async function findByRef({ ref }) {
-    return Transaction.findOne({ reference: ref })
+  async function findByRef({ ref }) { 
+    const found = await Transaction.findOne({ reference: ref })
+    if(!found) console.log('not found')
+    return found
   }
 
   async function findAll() {

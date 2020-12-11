@@ -1,5 +1,5 @@
 import makeExpressCallback from '../express'
-import { verifyPaystack } from '../transactions/controllers'
+import { postDepositEscrow } from '../transactions/controllers'
 import decodeToken from '../middleware/auth'
 
 export const path = '/api/v1/payment'
@@ -7,7 +7,7 @@ export const path = '/api/v1/payment'
 export function config(router) {
   router.post(
     '/paystack/callback',
-    makeExpressCallback(decodeToken(verifyPaystack))
+    makeExpressCallback(decodeToken(postDepositEscrow))
   )
   return router
 }

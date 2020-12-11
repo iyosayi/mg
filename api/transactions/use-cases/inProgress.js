@@ -6,10 +6,10 @@
 const makeInProgress = ({ transactionDb, sendInProgressEmail }) => {
   return async function inProgress({ ref }) {
     const currentTransaction = await transactionDb.findByRef({ ref })
-    let { transactionStatus, _id, initiator } = currentTransaction
-    transactionStatus = 'In Progress'
+    let { status, _id, initiator } = currentTransaction
+    status = 'In Progress'
     await Promise.all([
-      transactionDb.update({ id: _id, transactionStatus }),
+      transactionDb.update({ id: _id, status }),
       sendInProgressEmail({ ref, initiator })
     ])
   }

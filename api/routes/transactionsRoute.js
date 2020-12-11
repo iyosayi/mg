@@ -8,10 +8,9 @@ import {
   postConfirmTransaction,
   postInProgress,
   postRejectDelivery
-  // postDepositEscrow
 } from '../transactions/controllers'
 import decodeToken from '../middleware/auth'
-
+ 
 export const path = '/api/v1/transactions'
 export function config(router) {
   router
@@ -35,5 +34,6 @@ export function config(router) {
       makeExpressCallback(decodeToken(postConfirmTransaction)) // post confirms transaction by buyer/customer
     )
     .patch('/progress/:ref', makeExpressCallback(decodeToken(postInProgress))) // sets transaction status to in progress
+    
   return router
 }

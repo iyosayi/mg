@@ -1,12 +1,11 @@
-import { HttpUtils } from 'mguard-utils'
-
-const http = new HttpUtils()
+import apiResponse from '../../helpers/http-response'
+import wrapAsync from '../../helpers/try-catch-handler'
 
 const makeGetDisputes = ({ listDisputes }) => {
-  return http.wrapAsync(async (httpRequest) => {
+  return wrapAsync(async (httpRequest) => {
     const { id } = httpRequest.user
     const disputes = await listDisputes({ id })
-    return http.apiResponse({
+    return apiResponse({
       status: true,
       message: 'Transaction Disputes',
       data: [disputes],

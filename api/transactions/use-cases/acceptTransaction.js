@@ -5,12 +5,12 @@
  */
 
 const makeAcceptTransaction = ({ transactionDb, sendAcceptanceEmail }) => {
-  return async function acceptTransaction({ ref } = {}) {
+  return async function acceptTransaction({ ref }) {
     const currentTransaction = await transactionDb.findByRef({ ref })
-    let { transactionStatus, _id, initiator } = currentTransaction
-    transactionStatus = 'Transaction Accepted - Not funded'
+    let { status, _id, initiator } = currentTransaction
+    status = 'Transaction Accepted - Not funded'
     const [updated] = await Promise.all([
-      transactionDb.update({ id: _id, transactionStatus, accepted: true }),
+      transactionDb.update({ id: _id, status, accepted: true }),
       sendAcceptanceEmail({ _id, initiator })
     ])
     return updated

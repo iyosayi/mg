@@ -14,7 +14,7 @@ const createVerifyEmailTemplate = (receiver, url) => {
   const username = receiver.firstName
   const subject = 'Please Verify Your Email'
   const html = `
-    <p>Welcome ${username}🎉🎊, your account has been created successfully.</p>
+    <p>Welcome! 🎉🎊, your account has been created successfully.</p>
     <p>Please click the link to verify your email.</p>
     <p><a href=${url}>Verify my email.</a></p>
 

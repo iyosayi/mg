@@ -16,7 +16,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-
+  hasBankVerified: {
+    type: Boolean,
+    default: false,
+  },
   password: {
     type: String,
     required: true

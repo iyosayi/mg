@@ -47,6 +47,6 @@ const makeDepositEscrow = ({ transactionDb, escrowDb, walletDb }) => {
       console.error(error)
     }
   }
-}
+} 
 
 export default makeDepositEscrow

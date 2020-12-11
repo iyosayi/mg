@@ -27,7 +27,6 @@ export default function makeVerifyBankAccount({ usersDb }) {
       if (!user) {
         throw new InvalidPropertyError('User does not exist.')
       }
-      // const {hasBankVerified} = user
       const fullName = account_name
       const updated = await usersDb.update({
         id: userId,

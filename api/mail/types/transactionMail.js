@@ -11,8 +11,8 @@ const getTransactionEmailURL = () =>
 const createTransactionTemplate = (receiver, sender, transaction, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.firstName
-  const name = sender.firstName
+  const username = receiver.fullName
+  const name = sender.fullName
   const subject = 'You have a new transaction pending'
   const html = `
     <p>Hi ${username}, you have a new transaction from ${from} with name ${name} awaiting your confirmation.</p>

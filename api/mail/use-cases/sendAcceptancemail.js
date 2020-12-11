@@ -14,20 +14,20 @@ const makeAcceptanceEmail = ({
         id: _id
       })
       const {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
         // reference,
         email,
-        transactionStatus
+        status
       } = transactionDetails
       // const transactionRef = reference
       const sender = await usersDb.findByEmail({ email })
       const transaction = {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
-        transactionStatus
+        status
       }
       const url = dashboardURL()
       const emailTemplate = transactionEmailTemplate(

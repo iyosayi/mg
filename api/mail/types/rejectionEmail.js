@@ -1,8 +1,8 @@
 const rejectionEmailTemplate = (receiver, sender, transaction, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.firstName
-  const name = sender.firstName
+  const username = receiver.fullName
+  const name = sender.fullName
   const subject = 'Your Transaction Has been Rejected'
   const html = `
     <p>Hi ${username}, ${name} has rejected your transaction, Please login to your dashboard to see reasons why, as well

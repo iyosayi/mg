@@ -12,21 +12,21 @@ const makeSendDisputeMail = ({
       const receiver = await transactionDb.findById({ id: transactionId })
       const {
         initiator,
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
         reference,
         email,
-        transactionStatus
+        status
       } = receiver
       const sender = await usersDb.findById({ id: initiator._id })
       const url = dashboardURL(reference)
       const transaction = {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
         email,
-        transactionStatus
+        status
       }
       const emailTemplate = disputeMailTemplate(
         receiver,

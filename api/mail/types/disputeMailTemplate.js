@@ -1,12 +1,12 @@
 const disputeMailTemplate = (receiver, sender, transaction, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.firstName
-  const name = sender.firstName
+  const username = receiver.fullName
+  const name = sender.fullName
   const subject = `${username} Has Created A Dispute Regarding Your Product`
   const html = `
     <p>Hi ${username}, ${name} has created a dispute regarding the product which is ${
-    transaction.transactionTitle
+    transaction.title
   }.
     <p>Please login to your dashboard to see reasons why, as well as contact ${name} to settle the issue.</p>
     <p>Click this link to go to your dashboard <a href=${url}>${url}</a></p>

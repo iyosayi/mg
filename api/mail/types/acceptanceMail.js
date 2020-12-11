@@ -1,8 +1,8 @@
 const transactionEmailTemplate = (receiver, sender, transaction, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.firstName
-  const name = sender.firstName
+  const username = receiver.fullName || 'there'
+  const name = sender.fullName
   const subject = 'Your Transaction Has Been Accepted'
   const html = `
     <p>Hi ${username}, ${name} has accepted your transaction, you can go ahead and make payment on your dashboard.</p>

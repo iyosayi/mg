@@ -1,8 +1,8 @@
 const confirmEmailTemplate = (receiver, sender, transaction, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.firstName
-  const name = sender.firstName
+  const username = receiver.fullName
+  const name = sender.fullName
   const subject = 'Product Status Confirmed'
   const html = `
     <p>Hi ${username}, ${name} has confirmed the delivery of the product, Your funds will be settled to your account shortly.</p>

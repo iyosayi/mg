@@ -11,16 +11,16 @@ const makeSendNotificationEmail = ({
       const receiver = await transactionDb.findByRef({ ref })
       // const transactionRef = receiver.reference
       const {
-        transactionStatus,
-        transactionTitle,
-        transactionDesc,
+        status,
+        title,
+        description,
         amount
       } = receiver
       const transaction = {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
-        transactionStatus
+        status
       }
       const url = dashboardURL()
       const emailTemplate = acceptanceEmailTemplate(

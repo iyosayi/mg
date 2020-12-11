@@ -19,16 +19,16 @@ const makeInProgressEmail = ({
       // const transactionRef = transactionDetails.reference
       const sender = await usersDb.findByEmail({ email })
       const {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
-        transactionStatus
+        status
       } = transactionDetails
       const transaction = {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
-        transactionStatus
+        status
       }
       const url = dashboardURL()
       const emailTemplate = inProgressEmailTemplate(

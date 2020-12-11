@@ -11,7 +11,7 @@ const getUserEmail = (token) =>
 const createVerifyEmailTemplate = (receiver, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.firstName
+  const username = receiver.fullName || 'there'
   const subject = 'Please Verify Your Email'
   const html = `
     <p>Welcome! 🎉🎊, your account has been created successfully.</p>

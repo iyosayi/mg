@@ -11,7 +11,7 @@ const makePostLogin = ({ loginUser }) => {
       status: 'OK',
       statusCode: 200,
       message: 'Authorized',
-      data: token
+      data: token 
     }
   })
 }

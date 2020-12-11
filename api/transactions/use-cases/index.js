@@ -20,6 +20,7 @@ import {
 import transactionDb from '../models'
 import escrowDb from '../../core-payment/models'
 import usersDb from '../../users/model'
+import walletDb from '../../wallet/models'
 import DisbursementAPI from '../../pubsub/events'
 
 const createTransaction = makeCreateTransaction({
@@ -73,7 +74,7 @@ const inProgress = makeInProgress({
 })
 
 // deposits money into escrow account
-const depositEscrow = makeDepositEscrow({ transactionDb, escrowDb })
+const depositEscrow = makeDepositEscrow({ transactionDb, escrowDb, walletDb })
 
 export {
   listTransactions,

@@ -11,7 +11,7 @@ export default function makeWalletDeposit({ walletDb }) {
   }) {
     const newDeposit = makeWallet(walletDetails)
     return walletDb.deposit({
-      amount: newDeposit.getAmount(),
+      totalAmount: newDeposit.getAmount(),
       operationType: newDeposit.getOperation(),
       createdAt: newDeposit.getCreatedAt(),
       reference: newDeposit.getRef(),
@@ -19,3 +19,4 @@ export default function makeWalletDeposit({ walletDb }) {
     })
   }
 }
+ 

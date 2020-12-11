@@ -1,8 +1,8 @@
 const deliveryEmailTemplate = (receiver, sender, transaction, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.firstName
-  const name = sender.firstName
+  const username = receiver.fullName
+  const name = sender.fullName
   const subject = 'Your Order has Been Delivered'
   const html = `
     <p>Hi ${username}, ${name} has delivered your product, please goto your dashboard and confirm the delivery.</p>

@@ -13,16 +13,16 @@ const makeConfirmEmail = ({
       const receiver = await transactionDb.findByRef({ ref })
       // const transactionRef = receiver.reference
       const {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
-        transactionStatus
+        status
       } = receiver
       const transaction = {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
-        transactionStatus
+        status
       }
       const url = dashboardURL()
       const emailTemplate = confirmEmailTemplate(

@@ -2,7 +2,7 @@ import { Schema, Types } from 'mongoose'
 
 const types = ['deposit', 'withdraw', 'transfer', 'fee']
 const walletTransactionSchema = new Schema({
-  amount: {
+  totalAmount: {
     type: Number,
     default: 0,
     required: true

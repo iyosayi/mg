@@ -1,8 +1,8 @@
 const inProgressEmailTemplate = (receiver, sender, transaction, url) => {
   const from = 'imoneyguard@gmail.com'
   const to = receiver.email
-  const username = receiver.firstName
-  const name = sender.firstName
+  const username = receiver.fullName
+  const name = sender.fullName
   const subject = 'Your Product/Service is being Delivered'
   const html = `
     <p>Hi ${username}, your product is on its way to you. You will get it on or before the due date assigned</p>

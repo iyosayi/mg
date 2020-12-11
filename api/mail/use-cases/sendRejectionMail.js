@@ -13,16 +13,16 @@ const makeRejectionEmail = ({
       const sender = await transactionDb.findByRef({ ref })
       const transactionRef = sender.reference
       const {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
-        transactionStatus
+        status
       } = sender
       const transaction = {
-        transactionTitle,
-        transactionDesc,
+        title,
+        description,
         amount,
-        transactionStatus
+        status
       }
       const url = dashboardURL(transactionRef)
       const emailTemplate = rejectionEmailTemplate(

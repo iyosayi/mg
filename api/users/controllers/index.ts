@@ -1,7 +1,7 @@
 // import makePostUser from './post-user'
 // import makeDeleteUser from './delete-user'
 // import makePatchUser from './patch-user'
-import { addUser, removeUser, editUser } from '../use-cases'
+import { addUser,  editUser } from '../use-cases'
 
 // const postUser = makePostUser({ addUser })
 // const deleteUser = makeDeleteUser({ removeUser })
@@ -9,6 +9,8 @@ import { addUser, removeUser, editUser } from '../use-cases'
 
 // export { postUser, deleteUser, patchUser }
 
-import {PostController} from '../../http/Post'
+import { PostController, PatchController } from '../../http'
 const postUser = new PostController(addUser)
-postUser.add()
+const patchUser = new PatchController(editUser)
+
+export { postUser, patchUser }

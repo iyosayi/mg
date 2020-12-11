@@ -1,23 +1,15 @@
 import { IUser } from '../model/userModel'
 import { InvalidPropertyError } from '../../helpers/Errors'
-import {
-  isValidEmail,
-  makeSource,
-  isValidPassword,
-  upperFirst
-} from '../../helpers/utils'
+import { isValidEmail, makeSource, isValidPassword } from '../../helpers/utils'
 
 export class UserFactory {
   constructor(public user: IUser) {}
-  makeUser(): void{
+  makeUser(): void {
     const {
       email,
       source,
       password,
-      phoneNumber,
-      // businessName,
-      // createdOn,
-      // address,
+      phoneNumber
     } = this.user
     if (!email || !isValidEmail(email)) {
       throw new InvalidPropertyError('Please enter a valid email address.')
@@ -38,14 +30,11 @@ export class UserFactory {
     }
 
     makeSource(source)
-    // return Object.freeze({
-    //   email: email.toLowerCase(),
-    //   getPhoneNumber: () => phoneNumber,
-    //   getPassword: () => password,
-    //   getBusinessName: () => upperFirst(businessName as string),
-    //   getCreatedOn: () => createdOn,
-    //   getAddress: () => address,
-    //   getSource: () => validSource
-    // })
+  }
+
+  getUser(): Readonly<IUser> {
+    return this.user
   }
 }
+
+

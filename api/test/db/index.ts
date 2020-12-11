@@ -5,13 +5,13 @@
 import mongoose from 'mongoose'
 
 mongoose.set('useCreateIndex', true)
-mongoose.promise = global.Promise
+mongoose.Promise = global.Promise
 
 async function removeAllCollections() {
   const collections = Object.keys(mongoose.connection.collections)
   for (const collectionName of collections) {
     const collection = mongoose.connection.collections[collectionName]
-    await collection.deleteMany()
+    await collection.deleteMany({})
   }
 }
 
@@ -33,11 +33,11 @@ async function dropAllCollections() {
   }
 }
 
-const setupDB = (databaseName) => {
+export const setupDB = (databaseName: string) => {
   // Connect to Mongoose
   beforeAll(async () => {
-    // const url = `mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019/${databaseName}`
-    const url = `mongodb://localhost:27017/${databaseName}`
+    const url = `mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019/${databaseName}`
+    // const url = `mongodb://localhost:27017/${databaseName}`
     await mongoose.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -52,8 +52,8 @@ const setupDB = (databaseName) => {
   // Disconnect Mongoose
   afterAll(async () => {
     await dropAllCollections()
+    console.log('dropping and closing')
     await mongoose.connection.close()
   })
 }
 
-export default setupDB

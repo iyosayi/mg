@@ -11,7 +11,7 @@ export interface IUser {
   walletId: ID
   disputes: ID[]
   isVerified: boolean
-  link: string
+  link?: string
   source: {
     ip: string
     browser: string
@@ -22,6 +22,35 @@ export interface IUser {
   businessName?: string
   address?: string
   cacNumber?: string
+}
+
+export interface IUserResult {
+  email: string
+  password: string
+  phoneNumber: string
+  balance: number
+  transactions: ID[]
+  walletId: ID
+  disputes: ID[]
+  isVerified: boolean
+  link?: string
+  source: {
+    ip: string
+    browser: string
+    referrer: string | undefined
+  }
+  createdOn: Date
+  modifiedOn: Date
+  businessName?: string
+  address?: string
+  cacNumber?: string
+  __v: number | undefined
+  _id: ID
+  // userToken: {
+  //   token: string
+  //   issued: number
+  //   expires: number
+  // }
 }
 
 const UserSchemaFields: Record<keyof IUser, any> = {
@@ -73,42 +102,22 @@ const UserSchemaFields: Record<keyof IUser, any> = {
 }
 
 export const UserSchema = new Schema(UserSchemaFields)
-export interface IUserDoc extends IUser, Document {
-  _id: ID
-}
+export interface IUserDoc extends IUser, Document {}
 
-export interface IUserModel extends Model<IUserDoc> {
-  _id: ID
-}
+export interface IUserModel extends Model<IUserDoc> {}
 
+type FindById =
+  | Omit<
+      IUserResult,
+      'source' | 'isVerified' | 'password' | '__v' | 'modifiedOn'
+    >
+  | undefined
 export interface UserDatabase {
-  insert({ ...userInfo }: IUser): Promise<{user: IUserDoc, userToken: string}>
-  update(id: string, ...changes: string[]): Promise<string[]>
+  insert({
+    ...userInfo
+  }: IUser): Promise<{ user: IUserResult; userToken: string }>
+  update(id: ID, { ...changes }: IUser): Promise<IUserResult>
   findByEmail: (email: string) => Promise<IUserDoc> | null
-  findById(id: string): Promise<IUserDoc> | null
-  findAll(): Array<IUser>
+  findById: ({ id: _id }: { id: ID }) => Promise<FindById>
+  findAll: () => Promise<IUserDoc[]>
 }
-
-export type UserResult = {
-  user: {
-    email: string
-    password: string
-    phoneNumber: string
-    createdOn: Date
-    businessName?: string
-    address?: string
-    source: {
-      ip: string
-      browser: string
-      referrer: string
-    }
-  }
-  _id: string
-  userToken: {
-    token: string
-    issued: number
-    expires: number
-  }
-}
-
-// export default userSchema

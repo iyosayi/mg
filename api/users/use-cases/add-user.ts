@@ -1,10 +1,10 @@
 import { UserFactory } from '../entities/UserFactory'
-import { IUserDoc, IUser, UserResult, UserDatabase } from '../model/userModel'
+import { IUser, UserDatabase } from '../model/userModel'
 import { UniqueConstraintError } from '../../helpers/Errors'
 // import publisher from '../../pubsub/publisher'
 // import consumer from '../../pubsub/subscriber'
 // import { verifyUser } from '../../mail'
-import { createWallet } from '../../wallet/use-cases/'
+// import { createWallet } from '../../wallet/use-cases/'
 
 
 export class AddUser {
@@ -17,8 +17,8 @@ export class AddUser {
     }
     const user = new UserFactory(userInfo)
     user.makeUser()
-    const { email, ...details } = user.user
-    const newUser = await this.usersDb.insert({ email, ...details })
+    const { ...details } = user.user
+    const newUser = await this.usersDb.insert({ ...details })
     const id = newUser.user._id
     // await createWallet(id)
     // await publisher(id.toString(), 'newuser.verify')

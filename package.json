@@ -8,7 +8,8 @@
     "node": ">=12.18.3"
   },
   "scripts": {
-    "test": "jest api --testEnvironment=node --forceExit --verbose --watch --detectOpenHandles --runInBand",
+    "test1": "jest api --testEnvironment=node --forceExit --verbose --watch --detectOpenHandles --runInBand",
+    "test": "jest",
     "dev": "nodemon --legacy-watch --exec babel-node ./api/server/server.js",
     "clean": "rimraf dist",
     "build": "npm run clean && babel api -d dist --extensions .ts,.tsx --source-maps inline",
@@ -28,6 +29,7 @@
     "@types/bcryptjs": "2.4.2",
     "@types/cors": "2.8.8",
     "@types/express": "4.17.9",
+    "@types/faker": "5.1.5",
     "@types/jsonwebtoken": "8.5.0",
     "@types/mongoose": "5.7.36",
     "amqplib": "0.6.0",
@@ -64,6 +66,7 @@
     "@babel/preset-env": "7.11.0",
     "@babel/preset-typescript": "7.12.7",
     "@types/cron": "1.7.2",
+    "@types/jest": "26.0.18",
     "eslint": "7.7.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-config-prettier": "6.11.0",
@@ -72,6 +75,7 @@
     "jest": "26.4.0",
     "lint-staged": "10.2.11",
     "nodemon": "2.0.4",
-    "prettier": "2.0.5"
+    "prettier": "2.0.5",
+    "ts-jest": "26.4.4"
   }
 }

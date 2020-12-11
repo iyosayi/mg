@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import { apiResponse, makeHttpError } from '../helpers/http-response'
+import { GeneralError } from '../helpers/Errors'
+import { httpError, httpResponse } from '../helpers/http-response'
 import { PostMethod } from '../interfaces/IHttp'
 
 export class PostController implements PostMethod {
-  constructor(public postMethod: any) {
+  constructor(private postMethod: any) {
     this.add = this.add.bind(this)
   }
 
@@ -22,16 +23,23 @@ export class PostController implements PostMethod {
         source.referrer = req.headers.referer
       }
       const newItem = await this.postMethod.add({ source, ...incomingHttpBody })
-      const apiReturn = apiResponse(req, res)
-      return apiReturn({
+      const apiResponse = httpResponse(req, res)
+      return apiResponse({
         status: true,
         statusCode: 201,
         message: 'Resource created successfully',
         data: newItem
       })
-      
     } catch (error) {
-      next(error)
+      const makeHttpError = httpError(req, res)
+      if(error instanceof GeneralError) {
+        return makeHttpError({
+          statusCode: error.getErrorCode(),
+          title: error.name,
+          errorMessage: error.message,
+          stack: error.stack
+        })
+      }
     }
   }
 }

@@ -29,5 +29,11 @@ export interface PostMethod {
 }
 
 export interface GetMethod {
-  getUseCase(id?: string): Promise<HttpResponse>
+  get(req: Request, res: Response): Promise<any>
+}
+export interface PatchMethod {
+  update(req: Request, res: Response): Promise<any>
+}
+export interface DeleteMethod {
+  remove(req: Request, res: Response): Promise<any>
 }

@@ -5,12 +5,17 @@ const Id = Object.freeze({
   makeId: mongoose.Types.ObjectId
 })
 
-const makeFakeUser = (overrides) => {
+export const makeFakeUser = (overrides?: object) => {
   const user = {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
     email: faker.internet.email(),
+    password: 'Jesusisreal1234!!@',
     phoneNumber: '09020491830',
+    balance: 40000,
+    isVerified: true,
+    createdOn: new Date(),
+    modifiedOn: new Date(),
+    walletId: Id.makeId(),
+    disputes: [],
     source: {
       ip: faker.internet.ip(),
       browser: faker.internet.userAgent(),
@@ -18,8 +23,7 @@ const makeFakeUser = (overrides) => {
     },
     dob: faker.date.past(),
     username: faker.name.findName(),
-    password: 'Jesusisreal1234!!@',
-    _id: Id.makeId(),
+    // _id: Id.makeId(),
     initiator: Id.makeId(),
     transactions: []
   }
@@ -29,5 +33,3 @@ const makeFakeUser = (overrides) => {
     ...overrides
   }
 }
-
-export default makeFakeUser

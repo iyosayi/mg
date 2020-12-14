@@ -1,8 +1,7 @@
-import { types } from '@babel/core'
 import { Schema, Types } from 'mongoose'
+import { IWallet } from '../wallet-interfaces/i.wallet'
 
-export type ID = Types.ObjectId
-const walletSchema = new Schema({
+const walletFields: Record<keyof IWallet, any> = {
   userId: {
     type: Types.ObjectId,
     ref: 'User',
@@ -21,6 +20,6 @@ const walletSchema = new Schema({
   walletTransactions: [
     { type: Types.ObjectId, ref: 'WalletTransaction', required: true }
   ]
-})
+}
 
-export default walletSchema
+export const WalletSchema = new Schema(walletFields)

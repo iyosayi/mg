@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
-import express, { Application } from 'express'
+import express, { Application, NextFunction, Request, Response } from 'express'
 import cors from 'cors'
-import { UserRoutes } from '../users/routes/userRoute'
+import { UserRoutes } from '../users/routes/user.route'
 import {handleError} from '../helpers/try-catch-handler'
 import mongoose from 'mongoose'
 
@@ -35,7 +35,9 @@ class App {
   }
   
   private errorHandler(): void {
-    this.app.use(handleError)
+    this.app.use(async(error: Error, req:Request, res: Response, next: NextFunction) => {
+      return handleError(error, req, res)
+    })
 
   }
 }

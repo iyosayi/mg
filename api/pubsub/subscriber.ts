@@ -1,4 +1,4 @@
-import amqp from 'amqplib'
+import amqp, { Message } from 'amqplib'
 import AMQP_URI from '../helpers/config'
 import { MessageBrokerError } from '../helpers/Errors'
 
@@ -7,7 +7,7 @@ const assertExchangeOptions = { durable: true }
 const consumeQueueOptions = { noAck: false }
 const exchange = 'escrow'
 
-const consumer = async (queue: string, func: string, key: string) => {
+const consumer = async (queue: string, func: any, key: string) => {
   try {
     const conn = await amqp.connect(AMQP_URI)
     const channel = await conn.createChannel()
@@ -16,7 +16,7 @@ const consumer = async (queue: string, func: string, key: string) => {
     await channel.bindQueue(queue, exchange, key)
     await channel.consume(
       queue,
-      (msg: string) => {
+      (msg: Message) => {
         func(msg.content.toString())
         channel.ack(msg)
       },

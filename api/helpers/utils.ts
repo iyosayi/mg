@@ -1,11 +1,21 @@
 /* eslint-disable no-console */
 import ipRegex from 'ip-regex'
 
-interface ValidIp {
-  isValidIp(ip: string): boolean
+type Source = {
+  ip: string
+  browser: string
+  referrer: string
+}
+
+export interface IValidIp {
+  isValidIp: (ip: string) => boolean
+}
+
+interface IUtils {
+  makeSource: (source: Source) => Source
 }
 // To get the ip address of the buyer
-const buildMakeSource = ({ isValidIp }: ValidIp) => {
+const buildMakeSource = ({ isValidIp }: IValidIp) => {
   return function makeSource({
     ip,
     browser,
@@ -14,7 +24,7 @@ const buildMakeSource = ({ isValidIp }: ValidIp) => {
     ip: string
     browser: string
     referrer: string | undefined
-  }): object {
+  }) {
     if (!isValidIp(ip)) {
       throw new Error('Source must have a valid ip.')
     }

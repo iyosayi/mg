@@ -1,4 +1,4 @@
-import { UserDatabase } from './usersDb'
+import { UserDatabase } from './users.db'
 import models from '../../database/models'
 import { createToken, hashPassword } from '../../helpers/jsonwt'
 

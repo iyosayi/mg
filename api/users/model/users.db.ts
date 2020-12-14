@@ -1,9 +1,16 @@
 /* eslint-disable no-underscore-dangle */
-import mongoose, { Types, Document } from 'mongoose'
-import { IUserDoc, IUser, IUserModel, IUserResult } from './userModel'
-// import { createToken, hashPassword } from 'mguard-utils/auth'
+import { Types, Document } from 'mongoose'
+import {
+  IUserDoc,
+  IUserModel,
+  IUserResult,
+  IUserInput,
+  IUserDb,
+  IUser
+} from '../user-interfaces/i.user'
 import { createToken, hashPassword } from '../../helpers/jsonwt'
-import { DatabaseError } from '../../helpers/Errors'
+import { DatabaseError, InvalidPropertyError } from '../../helpers/Errors'
+import { logger } from '../../configuration/logging/logger'
 
 type ID = Types.ObjectId
 
@@ -12,12 +19,12 @@ type Populated<M, K extends keyof M> = Omit<M, K> &
 
 type Select<M, K extends keyof M> = Pick<M, K> & Document
 
-export class UserDatabase {
+export class UserDatabase implements IUserDb {
   constructor(private UserDoc: IUserModel) {}
 
   async insert({
     ...userInfo
-  }: IUser): Promise<{ user: IUserResult; userToken: string }> {
+  }: IUserInput): Promise<{ user: IUserResult; userToken: string }> {
     try {
       if (userInfo.password) {
         // eslint-disable-next-line no-param-reassign
@@ -76,12 +83,13 @@ export class UserDatabase {
     }
   }
 
-  async update(id : ID, { ...changes }: IUser): Promise<IUserResult> {
-    const result: IUserResult = await this.UserDoc.updateOne(
-      { id },
+  async update({ ...changes }: IUserInput): Promise<any> {
+    const { id } = changes
+    const result = await this.UserDoc.updateOne(
+      { _id: id },
       { ...changes }
     )
-    return result
+    return result.nModified > 0 ? {id, ...changes} : null
   }
 
   async findByEmail(email: string) {
@@ -92,37 +100,20 @@ export class UserDatabase {
     return found
   }
 
-  async findById({ id: _id }: { id: ID }) {
+  async findById({ id: _id }: { id: ID }): Promise<IUserDoc | null> {
     const found = await this.UserDoc.findById(_id).populate('transactions')
-    if (!found) return
-    type FindById =
-      | Omit<
-          IUserResult,
-          'source' | 'isVerified' | 'password' | '__v' | 'modifiedOn'
-        >
-      | undefined
-    const toReturn: FindById = {
-      email: found.email,
-      phoneNumber: found.phoneNumber,
-      balance: found.balance,
-      businessName: found.businessName,
-      transactions: found.transactions,
-      walletId: found.walletId,
-      disputes: found.disputes,
-      link: found.link,
-      cacNumber: found.cacNumber,
-      createdOn: found.createdOn,
-      address: found.address,
-      _id
+    if (!found) {
+      logger.warn('usersdb.findbyid.user.not.found', { _id })
+      throw new InvalidPropertyError('User does not exist.')
     }
-    return toReturn
+    return found
   }
 
   async findAll() {
     return this.UserDoc.find().select('-password')
   }
+
+  async remove({id: _id}: {id: ID}) {
+    return this.UserDoc.findByIdAndDelete(_id)
+  }
 }
-
-//as Select<IUserDoc, 'password'> findAll
-
-// as Select<IUserDoc, 'password' | '__v' | 'createdOn' | 'modifiedOn' | 'isVerified'> findByID

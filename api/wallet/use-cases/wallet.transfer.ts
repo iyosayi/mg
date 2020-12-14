@@ -1,25 +1,38 @@
-import { InvalidPropertyError } from '../../helpers/errors'
+import { InvalidPropertyError } from '../../helpers/Errors'
 import makeWallet from '../factory'
-import requiredParam from '../../helpers/requireParam'
+import {
+  IWalletDb,
+  IWalletTransactions,
+  ID
+} from '../wallet-interfaces/i.wallet'
+import { UserDatabase } from '../../users/model/users.db'
 
 /**
  * This is responsible for handling the transfer of money from one wallet
  * to another.
  */
-export default function makeWalletTransfer({ walletDb, usersDb }) {
-  return async function walletTransfer({
-    id = requiredParam('User Id'),
-    ...walletDetails
+
+export class WalletTransfer {
+  constructor(private walletDb: IWalletDb, private usersDb: UserDatabase) {
+    this.makeWalletTransfer = this.makeWalletTransfer.bind(this)
+  }
+
+  async makeWalletTransfer({
+    id,
+    walletDetails
+  }: {
+    id: ID
+    walletDetails: IWalletTransactions
   }) {
     const transfer = makeWallet(walletDetails)
-    const foundUser = await usersDb.findById({ id })
+    const foundUser = await this.usersDb.findById({ id })
     if (!foundUser) {
       throw new InvalidPropertyError('User does not exist.')
     }
     const { walletId, _id } = foundUser
-    const sender = await walletDb.findByAccountId({ id: walletId })
+    const sender = await this.walletDb.findByAccountId({ id: walletId })
     if (!sender) {
-      throw new InvalidPropertyError('Wallet does not exist.')
+      throw new InvalidPropertyError('Account does not exist.')
     }
     const { balance } = sender
     if (balance < walletDetails.amount || balance <= 0) {
@@ -28,14 +41,14 @@ export default function makeWalletTransfer({ walletDb, usersDb }) {
       )
     }
     const { destinationWalletId } = walletDetails
-    const found = await walletDb.findByAccountId({
-      id: destinationWalletId
+    const found = await this.walletDb.findByAccountId({
+      id: destinationWalletId as ID
     })
     if (!found) {
       throw new InvalidPropertyError('Account number does not exist.')
     }
 
-    return walletDb.transfer({
+    return this.walletDb.transfer({
       destinationWalletId: transfer.getDestinationAccount(),
       amount: transfer.getAmount(),
       operationType: transfer.getOperation(),

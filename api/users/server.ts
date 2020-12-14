@@ -1,3 +1,3 @@
-// import app from './application/app'
+import app from './application/app'
 
-// app.listen()
+app.listen(4000, () => console.log('User services started!!'))

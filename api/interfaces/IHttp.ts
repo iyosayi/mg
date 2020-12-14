@@ -29,11 +29,11 @@ export interface PostMethod {
 }
 
 export interface GetMethod {
-  get(req: Request, res: Response): Promise<any>
+  get(req: Request, res: Response, next: NextFunction): Promise<any>
 }
 export interface PatchMethod {
-  update(req: Request, res: Response): Promise<any>
+  update(req: Request, res: Response, next: NextFunction): Promise<any>
 }
 export interface DeleteMethod {
-  remove(req: Request, res: Response): Promise<any>
+  remove(req: Request, res: Response, next: NextFunction): Promise<any>
 }

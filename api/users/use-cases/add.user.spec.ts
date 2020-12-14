@@ -1,6 +1,6 @@
-import { AddUser } from './add-user'
+import { AddUser } from './add.user'
 import { setupDB } from '../../test/db'
-import { UserDatabase } from '../model/usersDb'
+import { UserDatabase } from '../model/users.db'
 import { makeFakeUser } from '../../test/fixtures/user'
 import models from '../../database/models'
 
@@ -33,7 +33,7 @@ describe('Add User', () => {
     const user = makeFakeUser({ password: null })
     const addUser = new AddUser(usersDb)
     expect(addUser.add(user)).rejects.toThrow(
-      'Password must be at least 8 characters long and must contain at least one Uppercase character, one special sign and a number.'
+      'Password cannot be null or undefined.'
     )
   })
 

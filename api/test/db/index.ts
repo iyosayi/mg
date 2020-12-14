@@ -52,7 +52,6 @@ export const setupDB = (databaseName: string) => {
   // Disconnect Mongoose
   afterAll(async () => {
     await dropAllCollections()
-    console.log('dropping and closing')
     await mongoose.connection.close()
   })
 }

@@ -10,22 +10,13 @@ export const makeFakeUser = (overrides?: object) => {
     email: faker.internet.email(),
     password: 'Jesusisreal1234!!@',
     phoneNumber: '09020491830',
-    balance: 40000,
-    isVerified: true,
-    createdOn: new Date(),
-    modifiedOn: new Date(),
-    walletId: Id.makeId(),
-    disputes: [],
+    createdOn: Date.now(),
+    modifiedOn: Date.now(),
     source: {
       ip: faker.internet.ip(),
       browser: faker.internet.userAgent(),
       referrer: faker.internet.url()
-    },
-    dob: faker.date.past(),
-    username: faker.name.findName(),
-    // _id: Id.makeId(),
-    initiator: Id.makeId(),
-    transactions: []
+    }
   }
 
   return {

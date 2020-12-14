@@ -1,5 +1,5 @@
-import { UserFactory } from './UserFactory'
-import { IUser } from '../UInterface/IUser'
+import { UserFactory } from './user.factory'
+import { IUser } from '../user-interfaces/i.user'
 import {
   isValidEmail,
   makeSource,

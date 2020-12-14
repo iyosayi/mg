@@ -1,5 +1,5 @@
 import mongoose, { Types } from 'mongoose'
-import { IUserDoc, IUserModel } from '../../users/model/userModel'
+import { IUserDoc, IUserModel } from '../../users/model/user.model'
 import { IEscrowModel } from './escrowModel'
 
 type ID = Types.ObjectId

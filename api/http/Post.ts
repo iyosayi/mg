@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { GeneralError } from '../helpers/Errors'
-import { httpError, httpResponse } from '../helpers/http-response'
+import { httpResponse } from '../helpers/http-response'
 import { PostMethod } from '../interfaces/IHttp'
 
 export class PostController implements PostMethod {
@@ -31,15 +30,7 @@ export class PostController implements PostMethod {
         data: newItem
       })
     } catch (error) {
-      const makeHttpError = httpError(req, res)
-      if(error instanceof GeneralError) {
-        return makeHttpError({
-          statusCode: error.getErrorCode(),
-          title: error.name,
-          errorMessage: error.message,
-          stack: error.stack
-        })
-      }
+      next(error)
     }
   }
 }

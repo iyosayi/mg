@@ -1,7 +1,8 @@
 import { Schema, Types } from 'mongoose'
+import { IWalletTransactions } from '../wallet-interfaces/i.wallet'
 
 const types = ['deposit', 'withdraw', 'transfer', 'fee']
-const walletTransactionSchema = new Schema({
+const WalletTransactionFields: Record<keyof IWalletTransactions, any> = {
   amount: {
     type: Number,
     default: 0,
@@ -25,6 +26,6 @@ const walletTransactionSchema = new Schema({
     ref: 'User'
   },
   createdAt: { type: Date }
-})
+}
 
-export default walletTransactionSchema
+export const WalletTransactionSchema = new Schema(WalletTransactionFields)

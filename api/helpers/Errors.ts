@@ -1,3 +1,52 @@
+export enum HttpStatusCode {
+  OK = 200,
+  BAD_REQUEST = 400,
+  NOT_FOUND = 404,
+  INTERNAL_SERVER = 500,
+  UNAUTHORIZED = 401,
+  EXISTS = 409
+}
+
+class BaseError extends Error {
+  public readonly name: string
+  public readonly httpCode: HttpStatusCode
+  public readonly isOperational: boolean
+
+  constructor(name: string, httpCode: HttpStatusCode,  isOperational: boolean, description: string,) {
+    super(description)
+    Object.setPrototypeOf(this, new.target.prototype)
+
+    this.name = name
+    this.httpCode = httpCode
+    this.isOperational = isOperational
+
+    Error.captureStackTrace(this)
+  }
+}
+
+class HTTP400Error extends BaseError {
+  constructor(description = 'bad request') {
+    super('NOT FOUND', HttpStatusCode.BAD_REQUEST, true, 'There seems to be an issue with your request')
+  }
+}
+
+class ErrorHandler {
+  public async handleError(err: Error): Promise<void> {
+    //some code here
+  }
+
+  public isTrustedError(error: Error) {
+    if(error instanceof BaseError) {
+      return error.isOperational
+    }
+    return false
+  }
+}
+
+export const errorHandler = new ErrorHandler()
+
+// <<<<===============>>>>>/////
+
 class GeneralError extends Error {
   constructor(public value: string) {
     super(value)

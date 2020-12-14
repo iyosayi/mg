@@ -2,8 +2,8 @@ import { InvalidPropertyError } from '../../helpers/Errors'
 import makeWallet from '../factory'
 import {
   IWalletDb,
-  IWalletTransactions,
-  ID
+  ID,
+  IWalletTransactions
 } from '../wallet-interfaces/i.wallet'
 import { UserDatabase } from '../../users/model/users.db'
 
@@ -17,19 +17,14 @@ export class WalletTransfer {
     this.makeWalletTransfer = this.makeWalletTransfer.bind(this)
   }
 
-  async makeWalletTransfer({
-    id,
-    walletDetails
-  }: {
-    id: ID
-    walletDetails: IWalletTransactions
-  }) {
-    const transfer = makeWallet(walletDetails)
-    const foundUser = await this.usersDb.findById({ id })
-    if (!foundUser) {
+  async makeWalletTransfer({ ...walletDetails }: IWalletTransactions) {
+    const { userId } = walletDetails // user making the transfer
+    const transferFactory = makeWallet(walletDetails)
+    const transferInitiator = await this.usersDb.findById({ id: userId })
+    if (!transferInitiator) {
       throw new InvalidPropertyError('User does not exist.')
     }
-    const { walletId, _id } = foundUser
+    const { walletId } = transferInitiator
     const sender = await this.walletDb.findByAccountId({ id: walletId })
     if (!sender) {
       throw new InvalidPropertyError('Account does not exist.')
@@ -41,20 +36,20 @@ export class WalletTransfer {
       )
     }
     const { destinationWalletId } = walletDetails
-    const found = await this.walletDb.findByAccountId({
+    const recipientAccount = await this.walletDb.findByAccountId({ // user recieving the transfered money
       id: destinationWalletId as ID
     })
-    if (!found) {
-      throw new InvalidPropertyError('Account number does not exist.')
+    if (!recipientAccount) {
+      throw new InvalidPropertyError('Account does not exist.')
     }
 
     return this.walletDb.transfer({
-      destinationWalletId: transfer.getDestinationAccount(),
-      amount: transfer.getAmount(),
-      operationType: transfer.getOperation(),
-      reference: transfer.getRef(),
-      createdAt: transfer.getCreatedAt(),
-      userId: _id
+      destinationWalletId: transferFactory.getDestinationAccount(),
+      amount: transferFactory.getAmount(),
+      operationType: transferFactory.getOperation(),
+      reference: transferFactory.getRef(),
+      createdAt: transferFactory.getCreatedAt(),
+      userId
     })
   }
 }

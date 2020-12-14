@@ -30,7 +30,7 @@ const UserSchemaFields: Record<keyof IUser, any> = {
   },
   balance: {
     type: Number,
-    default: 20000
+    default: 0
   },
   transactions: [{ type: Types.ObjectId, ref: 'Transaction' }],
   walletId: {

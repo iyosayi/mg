@@ -26,10 +26,4 @@ const models = {
   // Vendor: model('Vendor', vendorSchema)
 }
 
-// Object.values(models).forEach((model) => {
-//   if (!model) {
-//     model.createCollection()
-//   }
-// })
-
 export default models

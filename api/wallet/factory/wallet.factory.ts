@@ -3,13 +3,17 @@ import {
   InvalidPropertyError,
   RequiredParameterError
 } from '../../helpers/Errors'
-import { ID, Wallet } from '../wallet-interfaces/i.wallet'
-
-
+import { Wallet } from '../wallet-interfaces/i.wallet'
 
 export default function buildMakeWalletFactory({ uuidv4 }: any) {
   return function makeWallet(values: Wallet) {
-    let { amount, operationType, destinationWalletId, createdAt, reference } = values
+    let {
+      amount,
+      operationType,
+      destinationWalletId,
+      createdAt,
+      reference
+    } = values
     if (!amount || amount <= 0) {
       throw new InvalidPropertyError('Amount must be greater than zero.')
     }

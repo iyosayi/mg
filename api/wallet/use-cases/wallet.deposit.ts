@@ -1,5 +1,5 @@
 import makeWallet from '../factory'
-import { ID, IWalletDb, Wallet } from '../wallet-interfaces/i.wallet'
+import { Deposit, IWalletDb } from '../wallet-interfaces/i.wallet'
 import { RequiredParameterError } from '../../helpers/Errors'
 
 /**
@@ -11,13 +11,8 @@ export class WalletDeposit {
     this.walletDeposit = this.walletDeposit.bind(this)
   }
 
-  async walletDeposit({
-    userId,
-    walletDetails
-  }: {
-    userId: ID
-    walletDetails: Wallet
-  }) {
+  async walletDeposit({ ...walletDetails }: Deposit) {
+    const { userId } = walletDetails
     if (!userId) {
       throw new RequiredParameterError('Id')
     }

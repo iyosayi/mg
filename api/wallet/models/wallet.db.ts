@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import { DatabaseError, InvalidPropertyError } from '../../helpers/Errors'
 import { IUserDb } from '../../users/user-interfaces/i.user'
 import {
-  IWallet,
   IWalletModel,
   IWalletTransactions,
   ID,
@@ -11,8 +10,7 @@ import {
   IWalletResult,
   Deposit,
   IWalletTransactionsResult,
-  Populated,
-  IWalletDoc
+  IWalletTransactionsModel
 } from '../wallet-interfaces/i.wallet'
 import { logger } from '../../configuration/logging/logger'
 
@@ -20,7 +18,7 @@ export class WalletDatabase implements IWalletDb {
   constructor(
     private Wallet: IWalletModel,
     private usersDb: IUserDb,
-    private WalletTransaction: any
+    private WalletTransaction: IWalletTransactionsModel
   ) {
     this.create = this.create.bind(this)
     this.deposit = this.deposit.bind(this)
@@ -33,16 +31,16 @@ export class WalletDatabase implements IWalletDb {
   async create({ ...walletDetails }: Create): Promise<IWalletResult> {
     try {
       const { userId } = walletDetails
-      const wallet = new this.Wallet({ ...walletDetails })
-      await wallet.save()
+      const createdWallet = new this.Wallet({ ...walletDetails })
+      await createdWallet.save()
       const user = await this.usersDb.findById({ id: userId })
       if (!user) {
         logger.error('walletdb.create.failed', { ...walletDetails })
         throw new DatabaseError('Wallet could not be created, no user found.')
       }
-      user.walletId = wallet._id
+      user.walletId = createdWallet._id
       await user.save()
-      return wallet
+      return createdWallet
     } catch (error) {
       throw new DatabaseError(error)
     }
@@ -53,10 +51,11 @@ export class WalletDatabase implements IWalletDb {
   }: Deposit): Promise<IWalletTransactionsResult> {
     try {
       const { userId } = walletDetails
-      const newTransaction = await new this.WalletTransaction({
+      const newDepositTransaction = new this.WalletTransaction({
         ...walletDetails
       })
-      await newTransaction.save()
+      await newDepositTransaction.save()
+      const { _id } = newDepositTransaction
       const wallet = await this.Wallet.findOne({ userId })
       if (!wallet) {
         logger.error('walletdb.deposit.failed', { ...walletDetails })
@@ -64,12 +63,11 @@ export class WalletDatabase implements IWalletDb {
           'Deposit failed, account does not exist.'
         )
       }
-      wallet.balance += newTransaction.amount
-      wallet.walletTransactions.push(newTransaction)
+      wallet.balance += newDepositTransaction.amount
+      wallet.walletTransactions.push(_id) // id of the transaction
       await wallet.save()
-      return newTransaction
+      return newDepositTransaction
     } catch (error) {
-      // logging.error(`An error occured: Error ${error}`)
       throw new DatabaseError(error)
     }
   }
@@ -78,34 +76,39 @@ export class WalletDatabase implements IWalletDb {
     const session = await mongoose.startSession()
     try {
       await session.withTransaction(async () => {
+        console.log('from the db', walletDetails)
         const { userId, destinationWalletId, amount } = walletDetails
-        const sender = await this.Wallet.findOne({ userId }).session(session)
-        const receiver = await this.Wallet.findOne({
+        const transferInitiator = await this.Wallet.findOne({ userId }).session(
+          session
+        )
+        const transferRecipient = await this.Wallet.findOne({
           _id: destinationWalletId
         }).session(session)
-        if (!sender) {
-          logger.error('walletdb.transfer.sender.not.found', {
+        if (!transferInitiator) {
+          logger.error('walletdb.transfer.transferInitiator.not.found', {
             ...walletDetails
           })
           throw new InvalidPropertyError('User information invalid')
         }
 
-        if (!receiver) {
-          logger.error('walletdb.transfer.receiver.not.found', {
+        if (!transferRecipient) {
+          logger.error('walletdb.transfer.transferRecipient.not.found', {
             ...walletDetails
           })
           throw new InvalidPropertyError('Receipient does not exist.')
         }
-        sender.balance -= amount
-        await sender.save({ session })
-        receiver.balance += amount
-        await receiver.save({ session })
+        transferInitiator.balance -= amount
+        await transferInitiator.save({ session })
+        transferRecipient.balance += amount
+        await transferRecipient.save({ session })
         const newTransfer = new this.WalletTransaction({ ...walletDetails })
         await newTransfer.save({ session })
-        sender.walletTransactions.push(newTransfer)
-        await sender.save({ session })
-        receiver.walletTransactions.push(newTransfer)
-        await receiver.save({ session })
+        const { _id } = newTransfer
+        transferInitiator.walletTransactions.push(_id) // id of the transaction
+        await transferInitiator.save({ session })
+        transferRecipient.walletTransactions.push(_id) // id of the transaction
+        await transferRecipient.save({ session })
+        return newTransfer
       })
     } catch (error) {
       logger.error(error)
@@ -136,18 +139,20 @@ export class WalletDatabase implements IWalletDb {
   async withdraw({ ...walletDetails }: IWalletTransactions) {
     try {
       const { amount, userId } = walletDetails
-      const user = await this.Wallet.findOne({ userId })
-      if (!user) {
-        logger.error('walletdb.withdraw.user.not.found', { ...walletDetails })
+      const userWallet = await this.Wallet.findOne({ userId })
+      if (!userWallet) {
+        logger.error('walletdb.withdraw.userWallet.not.found', {
+          ...walletDetails
+        })
         throw new InvalidPropertyError('User account does not exist.')
       }
-      user.balance -= amount
-      await user.save()
-      const withdrawal = new this.WalletTransaction({ ...walletDetails })
-      await withdrawal.save()
-      user.walletTransactions.push(withdrawal)
-      await user.save()
-      return withdrawal
+      userWallet.balance -= amount
+      await userWallet.save()
+      const newWithdrawal = new this.WalletTransaction({ ...walletDetails })
+      await newWithdrawal.save()
+      userWallet.walletTransactions.push(newWithdrawal._id) // id of the transaction
+      await userWallet.save()
+      return newWithdrawal
     } catch (error) {
       throw new DatabaseError(error)
     }

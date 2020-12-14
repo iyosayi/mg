@@ -1,15 +1,12 @@
 import { CreateWallet } from './create.wallet'
 import { setupDB } from '../../test/db'
-import { makeFakeWallet } from '../../test/fixtures/wallet'
 import { makeFakeUser } from '../../test/fixtures/user'
 import models from '../../database/models'
 import { WalletDatabase } from '../models/wallet.db'
 import usersDb from '../../users/model'
 import { IWalletDb } from '../wallet-interfaces/i.wallet'
-import {Types} from 'mongoose'
 
 const { Wallet, WalletTransaction } = models
-const Id = Types.ObjectId()
 setupDB('wallet')
 
 let walletDb: IWalletDb

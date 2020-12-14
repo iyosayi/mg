@@ -1,6 +1,11 @@
 import { Types } from 'mongoose'
 import { v4 as uuidv4 } from 'uuid'
 import faker from 'faker'
+import {
+  Deposit,
+  IWalletTransactions,
+  Wallet
+} from '../../wallet/wallet-interfaces/i.wallet'
 
 const Id = Object.freeze({
   makeId: Types.ObjectId
@@ -16,6 +21,52 @@ export const makeFakeWallet = (overrides?: object) => {
 
   return {
     ...wallet,
+    ...overrides
+  }
+}
+
+export const makeFakeDeposit = (overrides?: object) => {
+  const walletDetails: Deposit = {
+    amount: 4000,
+    operationType: 'deposit',
+    createdAt: Date.now(),
+    reference: uuidv4(),
+    userId: Id.makeId()
+  }
+
+  return {
+    ...walletDetails,
+    ...overrides
+  }
+}
+
+export const makeFakeTransfer = (overrides?: object) => {
+  const walletDetails: IWalletTransactions = {
+    amount: 4000,
+    operationType: 'transfer',
+    createdAt: Date.now(),
+    reference: uuidv4(),
+    userId: Id.makeId(),
+    destinationWalletId: Id.makeId()
+  }
+
+  return {
+    ...walletDetails,
+    ...overrides
+  }
+}
+
+export const makeFakeWithdrawal = (overrides?: object) => {
+  const walletDetails = {
+    amount: 0,
+    operationType: 'withdraw',
+    createdAt: Date.now(),
+    reference: uuidv4(),
+    userId: Id.makeId()
+  }
+
+  return {
+    ...walletDetails,
     ...overrides
   }
 }

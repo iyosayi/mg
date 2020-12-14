@@ -1,5 +1,4 @@
 import { InvalidPropertyError } from '../../helpers/Errors'
-import {  IUserResult } from '../../users/user-interfaces/i.user'
 import makeWallet from '../factory'
 import { IWalletDb, IWalletTransactions } from '../wallet-interfaces/i.wallet'
 
@@ -12,14 +11,16 @@ export class WalletWithdrawal {
     this.makeWalletWithdrawal = this.makeWalletWithdrawal.bind(this)
   }
 
-  async makeWalletWithdrawal({user, walletDetails}: {user: IUserResult, walletDetails: IWalletTransactions}) {
+  async makeWalletWithdrawal({...walletDetails}: IWalletTransactions) {
     const toWithdraw = makeWallet(walletDetails)
-    const { _id, walletId } = user
-    const accountOwner = await this.walletDb.findByAccountId({ id: walletId })
-    if(!accountOwner) {
+    const {userId, walletId} = walletDetails
+    const foundUserAccount = await this.walletDb.findByAccountId({
+      id: walletId
+    })
+    if (!foundUserAccount) {
       throw new InvalidPropertyError('Account does not exist')
     }
-    const { balance } = accountOwner
+    const { balance } = foundUserAccount
     // checks to see if the requested amount is greater than the user's balance
     if (walletDetails.amount > balance) {
       throw new InvalidPropertyError('Insufficient funds.')
@@ -31,30 +32,7 @@ export class WalletWithdrawal {
       reference: toWithdraw.getRef(),
       createdAt: toWithdraw.getCreatedAt(),
       operationType: toWithdraw.getOperation(),
-      userId: _id
+      userId
     })
   }
-} 
-
-
-// export default function makeWalletWithdrawal({ walletDb }) {
-//   return async function walletWithdrawal({ user, ...walletDetails }) {
-//     const withdrawal = makeWallet(walletDetails)
-//     const { _id, walletId } = user
-//     const accountOwner = await walletDb.findByAccountId({ id: walletId })
-//     const { balance } = accountOwner
-//     // checks to see if the requested amount is greater than the user's balance
-//     if (walletDetails.amount > balance) {
-//       throw new InvalidPropertyError('Insufficient funds.')
-//     }
-
-//     // send mail here
-//     return walletDb.withdraw({
-//       amount: withdrawal.getAmount(),
-//       reference: withdrawal.getRef(),
-//       createdAt: withdrawal.getCreatedAt(),
-//       operationType: withdrawal.getOperation(),
-//       userId: _id
-//     })
-//   }
-// }
+}

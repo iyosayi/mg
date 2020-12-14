@@ -31,7 +31,7 @@ const buildMakeUserFactory = ({
 
     if (!isValidPassword(password)) {
       throw new InvalidPropertyError(
-        'Password must be at least 8 characters long and must contain at least one uppercase character and one special sign.'
+        'Password must be at least 8 characters long and must contain at least one Uppercase character, one special sign and a number.'
       )
     }
 

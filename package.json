@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test1": "jest api --testEnvironment=node --forceExit --verbose --watch --detectOpenHandles --runInBand",
-    "test": "jest --runInBand --detectOpenHandles --verbose",
+    "test": "jest --runInBand --detectOpenHandles --verbose --watch",
     "dev": "nodemon --legacy-watch --exec babel-node ./api/server/server.js",
     "clean": "rimraf dist",
     "build": "npm run clean && babel api -d dist --extensions .ts,.tsx --source-maps inline",

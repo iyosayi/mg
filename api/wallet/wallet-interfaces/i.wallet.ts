@@ -16,11 +16,7 @@ export interface IWallet {
   walletTransactions: ID[]
 }
 
-export interface IWalletResult {
-  userId: ID
-  userEmail: string
-  balance: number
-  walletTransactions: ID[]
+export interface IWalletResult extends IWallet {
   _id: ID
 }
 
@@ -33,13 +29,7 @@ export interface IWalletTransactions {
   destinationWalletId?: ID
 }
 
-export interface IWalletTransactionsResult {
-  amount: number
-  reference: string
-  operationType: OperationType
-  userId: ID
-  destinationWalletId: ID
-  createdAt: Date
+export interface IWalletTransactionsResult extends IWalletTransactions {
   _id: ID
 }
 
@@ -72,7 +62,7 @@ export interface IWalletDb {
   findUserById: ({ id: _id }: { id: ID }) => Promise<IWalletResult | null>
   withdraw: ({
     ...walletDetails
-  }: WithDraw) => Promise<{ wallet: IWalletTransactionsResult }>
+  }: WithDraw) => Promise<IWalletTransactionsResult>
   findTransactions: ({
     id: _id
   }: {

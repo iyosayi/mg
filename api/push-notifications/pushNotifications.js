@@ -1,36 +1,47 @@
-import webpush from 'web-push';
-import app from '../server/app';
+import webpush from 'web-push'
+import app from '../server/app'
 
 // const vapidKeys = webpush.generateVAPIDKeys();
 
 // Prints 2 URL Safe Base64 Encoded Strings
-const publicKey = process.env.PUBLIC_VAPID_KEY;
-const privateKey = process.env.PRIVATE_VAPID_KEY;
+const publicKey = process.env.PUBLIC_VAPID_KEY
+const privateKey = process.env.PRIVATE_VAPID_KEY
 
-webpush.setVapidDetails(
-    'mailto:example@yourdomain.org',
+// webpush.setVapidDetails(
+
+// )
+
+const options = {
+  vapidDetails: {
+    subject: 'mailto:billmal071@gmail.com',
     publicKey,
     privateKey
-)
+  },
+  headers: {
+    'authorization': `vapid ${publicKey}`
+  }
+}
 
 app.post('/subscribe', (req, res) => {
-    // get push subcription object
-    const subscription = req.body;
+  // push subscription
 
-    // send a 201
-    res.status(201).json({})
+  // get push subcription object
+  const { subscription } = req.body
+  console.log('req.body:', req.body)
 
-    // create payload 
-    const payload = JSON.stringify({
-        title: 'Push test'
-    })
+  // send a 201
+  res.status(201).json({})
 
-    // pass object into sendNotification
-    webpush.sendNotification(subscription, payload).catch(err => console.error(err))
+  // create payload
+  const payload = JSON.stringify({
+    title: 'Push test'
+  })
 
+  // pass object into sendNotification
+  webpush
+    .sendNotification(subscription, payload, options)
+    .catch((err) => console.error('from pushNotifications:', err))
 })
-
-
 
 // non persistent
 

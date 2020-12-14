@@ -7,13 +7,14 @@ function urlBase64ToUint8Array(base64String) {
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
 
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < rawData.length; ++i) {
         outputArray[i] = rawData.charCodeAt(i);
     }
     return outputArray;
 }
 
-const vapidPublicKey = 'BHT6yKvj5f4LUUa5-0ZGs6DP3gc3Ui5WVyLBZyBGp0Y6Q7fDGh77NjIPtORvyptH-fAxRE915yLgVqwOkaTlStw';
+const vapidPublicKey = 'BCO6_Fng7fl3rOjEEOp-fJ3Q_3-qYcAMlIu0YcJB9JtLU4p5859rdNFMJ9vB3H_asfDkgcKMxgFxEvC7TlPKYm4';
 const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
 // const triggerPush = document.querySelector('.trigger-push');
 
@@ -24,21 +25,36 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
 
 async function triggerPushNotification() {
 
-    const register = await navigator.serviceWorker.register('/sw.js', {
-        scope: '/'
-    });
+    try {
+        const register = await navigator.serviceWorker.register('/sw.js', {
+            scope: '/'
+        });
 
-    const subscription = await register.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: convertedVapidKey,
-    });
+        if (register.installing) {
+            console.log('Service worker installing');
+            // reload
+            window.location.reload();
+        } else if (register.waiting) {
+            console.log('Service worker installed');
+        } else if (register.active) {
+            console.log('Service worker active');
+            const subscription = await register.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: convertedVapidKey,
+            });
 
-    await fetch('/subscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+            await fetch('/subscribe', {
+                method: 'POST',
+                body: JSON.stringify(subscription),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `vapid ${convertedVapidKey}`
+                },
+            });
+        }
+
+    } catch (err) {
+        console.log("from main.js:", err.message)
+    }
 
 }

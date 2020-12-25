@@ -6,3 +6,4 @@ const patchUser = new PatchController(editUser)
 const getUser = new GetController(listUser)
 
 export { postUser, patchUser, getUser }
+ 

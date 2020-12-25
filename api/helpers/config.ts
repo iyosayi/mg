@@ -4,7 +4,7 @@ dotenv.config()
 
 export default process.env.CLOUDAMQP_URL || 'amqp://localhost'
 
-export function urlGenerator(type: string, token: string) {
+export function urlGenerator(type: string, token?: string) {
   switch (type) {
     case 'dashboard':
       return `https://money-guard.herokuapp.com/dashboard`
@@ -21,3 +21,9 @@ export function urlGenerator(type: string, token: string) {
       return `https://money-guard.herokuapp.com/`
   }
 }
+
+export type URL = 'signup' | 'dashboard' | 'login' | 'verify'
+export const dashboardURL = ({ type, token }: { type: URL; token?: string }) =>
+  process.env.EMAIL_ENV === 'production'
+    ? urlGenerator(type, token)
+    : `http://localhost:3000/${type}`

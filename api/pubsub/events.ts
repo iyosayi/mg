@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 import { CronJob } from 'cron'
-import escrowDb from '../core-payment/models'
+import escrowDb from '../escrow-payment/models'
 import transactionDb from '../transactions/models'
 import usersDb from '../users/model'
 
@@ -23,12 +23,15 @@ class DisbursementAPI extends EventEmitter {
     })
     const { email, inspectionPeriod } = currentTransaction
     const receiver = await usersDb.findByEmail({ email })
+    /**
+     * Send the receiver ID instead
+     */
 
     // checks to see if the customer's money has been disbursed before now
     if (isCustomerPaid) {
       throw new Error('The recipient money has been disbursed already.')
     } else if (inspectionPeriod === Date.now()) {
-      await escrowDb
+      await escrowDb 
         .transferMoney({
           totalAmount,
           transactionId,

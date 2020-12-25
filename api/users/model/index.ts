@@ -1,6 +1,6 @@
 import { UserDatabase } from './users.db'
+// import { User } from './user.model'
 import models from '../../database/models'
-import { createToken, hashPassword } from '../../helpers/jsonwt'
 
 const { User } = models
 

@@ -1,7 +1,8 @@
-import { Schema, Types } from 'mongoose'
-import { IUser } from '../user-interfaces/i.user'
+import { Schema, Types, model } from 'mongoose'
+import { IUser, IUserDoc } from '../user-interfaces/i.user'
 
 const UserSchemaFields: Record<keyof IUser, any> = {
+  fullName: String,
   businessName: {
     type: String
   },
@@ -39,7 +40,7 @@ const UserSchemaFields: Record<keyof IUser, any> = {
   },
   source: {},
   disputes: [{ type: Types.ObjectId, ref: 'Dispute' }],
-  isVerified: {
+  isEmailVerified: {
     type: Boolean,
     default: false
   },
@@ -50,3 +51,4 @@ const UserSchemaFields: Record<keyof IUser, any> = {
 }
 
 export const UserSchema = new Schema(UserSchemaFields)
+export const User = model<IUserDoc>('User', UserSchema)

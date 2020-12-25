@@ -10,3 +10,4 @@ export class UserRoutes {
       .patch(patchUser.update)
   }
 }
+ 

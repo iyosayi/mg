@@ -19,80 +19,40 @@ type Populated<M, K extends keyof M> = Omit<M, K> &
 
 type Select<M, K extends keyof M> = Pick<M, K> & Document
 
+function transformId(id: string) {
+  return Types.ObjectId(id)
+}
+
 export class UserDatabase implements IUserDb {
   constructor(private UserDoc: IUserModel) {}
 
-  async insert({
-    ...userInfo
-  }: IUserInput): Promise<{ user: IUserResult; userToken: string }> {
+  async insert({ ...userInfo }: IUserInput) {
     try {
       if (userInfo.password) {
-        // eslint-disable-next-line no-param-reassign
         userInfo.password = await hashPassword(userInfo.password)
       }
-      const newUser = new this.UserDoc({ ...userInfo })
-      const {
-        email,
-        password,
-        phoneNumber,
-        balance,
-        transactions,
-        walletId,
-        disputes,
-        isVerified,
-        link,
-        source,
-        createdOn,
-        modifiedOn,
-        businessName,
-        address,
-        cacNumber,
-        __v,
-        _id
-      } = newUser
-      const user: IUserResult = {
-        email,
-        password,
-        phoneNumber,
-        balance,
-        transactions,
-        walletId,
-        disputes,
-        isVerified,
-        link,
-        source,
-        createdOn,
-        modifiedOn,
-        businessName,
-        address,
-        cacNumber,
-        _id,
-        __v
-      }
-
+      const user = new this.UserDoc({ ...userInfo })
       const partialSession = {
         id: user._id,
         email: user.email
       }
-
-      const userToken = createToken(partialSession, 'hello')
-      await newUser.save()
+      const userToken = createToken(partialSession)
+      await user.save()
       return { user, userToken }
     } catch (error) {
       throw new DatabaseError(error)
     }
   }
 
-  async update({ ...changes }: IUserInput): Promise<any> {
-    const { id } = changes
+  async update({ id: _id, ...changes }: { id: string } & IUser) {
     const result = await this.UserDoc.updateOne(
-      { _id: id },
-      { ...changes }
+      { _id: transformId(_id) },
+      { $set: { ...changes } }
     )
-    return result.nModified > 0 ? {id, ...changes} : null
+    return result.nModified > 0 ? { id: _id, ...changes } : null
   }
 
-  async findByEmail(email: string) {
+  async findByEmail({ email }: { email: string }) {
     const found = (await this.UserDoc.findOne({ email }).populate(
       'transactions'
     )) as Populated<IUserDoc, 'transactions'>
@@ -100,8 +60,10 @@ export class UserDatabase implements IUserDb {
     return found
   }
 
-  async findById({ id: _id }: { id: ID }): Promise<IUserDoc | null> {
-    const found = await this.UserDoc.findById(_id).populate('transactions')
+  async findById({ id: _id }: { id: string }): Promise<IUserDoc | null> {
+    const found = await this.UserDoc.findById(transformId(_id)).populate(
+      'transactions'
+    )
     if (!found) {
       logger.warn('usersdb.findbyid.user.not.found', { _id })
       throw new InvalidPropertyError('User does not exist.')
@@ -113,7 +75,7 @@ export class UserDatabase implements IUserDb {
     return this.UserDoc.find().select('-password')
   }
 
-  async remove({id: _id}: {id: ID}) {
-    return this.UserDoc.findByIdAndDelete(_id)
+  async remove({ id: _id }: { id: string }) {
+    return this.UserDoc.findByIdAndDelete(transformId(_id))
   }
 }

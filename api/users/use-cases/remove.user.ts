@@ -19,7 +19,7 @@ export class RemoveUser {
     }
     const { _id } = userToDelete
 
-    const hardDelete = async (user: IUser) => {
+    const hardDelete = async () => {
       await this.usersDb.remove({ id: _id })
       return {
         deletedCount: 1,
@@ -37,6 +37,6 @@ export class RemoveUser {
     if (!userToDelete) {
       return deleteNothing()
     }
-    return hardDelete(userToDelete)
+    return hardDelete()
   }
 }

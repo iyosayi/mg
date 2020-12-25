@@ -14,7 +14,7 @@ beforeAll(() => {
   usersDb = new UserDatabase(User)
 })
 
-describe('Edit User', () => {
+describe.skip('Edit User', () => {
   it('edits a user', async () => {
     const newUser = makeFakeUser()
     const inserted = await usersDb.insert(newUser)

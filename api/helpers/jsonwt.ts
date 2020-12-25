@@ -1,17 +1,18 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { Types } from 'mongoose'
+require('dotenv').config()
 
 type ID = Types.ObjectId
 
-interface IUserid {
-  id: ID
+interface IUserToken {
+  id: string | ID
   email: string
 }
 
-const JWT_SECRET = process.env
-const createToken = (userId: IUserid, secret: string) => {
-  return jwt.sign(userId, secret, { expiresIn: '1d' })
+const JWT_SECRET = process.env.JWT_SECRET
+const createToken = (userId: IUserToken) => {
+  return jwt.sign(userId, JWT_SECRET, { expiresIn: '1d' })
 }
 
 // const sendTokenResponse = (userId) => {
@@ -23,8 +24,8 @@ const decodeToken = (details: string) => {
   return jwt.decode(details)
 }
 
-const verifyToken = (token: string, secret: string) => {
-  return jwt.verify(token, secret)
+const verifyToken = (token: string) => {
+  return jwt.verify(token, JWT_SECRET)
 }
 
 const hashPassword = async (password: string) => {

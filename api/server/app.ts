@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-expressions */
 import express, { Application, NextFunction, Request, Response } from 'express'
 import cors from 'cors'
 import { UserRoutes } from '../users/routes/user.route'
-import {handleError} from '../helpers/try-catch-handler'
+import { handleError } from '../helpers/try-catch-handler'
 import mongoose from 'mongoose'
 
 class App {
@@ -19,13 +18,14 @@ class App {
     this.errorHandler()
   }
 
-  
   private mongoSetup(): void {
     mongoose.Promise = global.Promise
-    mongoose.connect(this.url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }).then(() => console.log('Connected to DB'))
+    mongoose
+      .connect(this.url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .then(() => console.log('Connected to DB'))
   }
 
   private config(): void {
@@ -33,14 +33,14 @@ class App {
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: false }))
   }
-  
-  private errorHandler(): void {
-    this.app.use(async(error: Error, req:Request, res: Response, next: NextFunction) => {
-      return handleError(error, req, res)
-    })
 
+  private errorHandler(): void {
+    this.app.use(
+      async (error: Error, req: Request, res: Response, next: NextFunction) => {
+        return handleError(error, req, res)
+      }
+    )
   }
 }
 
 export default new App().app
-

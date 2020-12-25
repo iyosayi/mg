@@ -14,7 +14,7 @@ beforeAll(() => {
   walletDb = new WalletDatabase(Wallet, usersDb, WalletTransaction)
 })
 
-describe('Create Wallet', () => {
+describe.skip('Create Wallet', () => {
   it('creates a wallet successfully', async () => {
     const user = makeFakeUser()
     const newUser = await usersDb.insert(user)

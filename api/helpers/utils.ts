@@ -11,9 +11,6 @@ export interface IValidIp {
   isValidIp: (ip: string) => boolean
 }
 
-interface IUtils {
-  makeSource: (source: Source) => Source
-}
 // To get the ip address of the buyer
 const buildMakeSource = ({ isValidIp }: IValidIp) => {
   return function makeSource({
@@ -78,7 +75,7 @@ const isValidPassword = (password: string) => {
   return validate.test(password)
 }
 
-const isValidAmount = (amount: string) => {
+const isValidAmount = (amount: string): boolean => {
   const valid = new RegExp(/^[0-9]+$/)
   return valid.test(amount)
 }

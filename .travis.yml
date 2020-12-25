@@ -21,5 +21,4 @@ jobs:
         app: moneyguard-test
         api_key:
           secure: h/6ysLL6M1rnjZzPdbyw6JPpIELBxuuO1Bbz3hJEkrs2Jpo9ctVEvm+PlZjyzlJA37NQv5qb+fNOf/bdB2lL2Sd1ow23+A7wbvE38XmlZH/BC/3sN2AIP/xzXICnNR2qtlyK2zMl3KVwfa/MwBUZcCj5EBSyki49rG1yUm19u5F/Fd74/Y/R0MmaHT41nb+W1MQ7cZlrwu/cWlQiTfJfrNPRMPR8MVRZSJryQHVmXz3NMn2P1fYnPGazOw1nistfbOpGejmdGnvczYGC7VpYIFDwRrqYeUHjFxsfo0zZ4W0qH5WYcMEjbsUgjZ6AKyNyjZjHqY9Wr85QyY0lUD0kek+v5MG9fQI7q9g3sM4n/joO8F4uWWvzHCbIehCl/F9i9/vZibZZEowgA6czh8ii0lWRk0yvt21cC73wY3uc0xHPx3ZDHeUnEGMhDelMMfD+rEAt5dt8xC+R0k7pH3tsas6XeFXY5zRimFj7ZukLE8JtMMUvjjNQOiTXf06QGIiAwA1Cjnrpn0UCysRcFRAzmsDKcMLYZc8f1AikNFcd6ABn9v46afzrX9KIheYY71NuyWlPcwxoltC6BFnJh9IRFp0y1VNES3iyHiqvzuHG5G5gj80T5UUq4GG9jId/nyFqLgCdfK2LQs2bZwuJaxBwTAwFZEoci9FYuLZgibJg7/U=
-    - stage: Test staging
-      script: 
+    
